@@ -1,0 +1,836 @@
+// ==UserScript==
+// @name         Apple 美国商店购物及结账中文翻译
+// @name:zh-CN   Apple 美国商店购物及结账中文翻译
+// @name:en      Apple Store and Checkout Simplified Chinese
+// @namespace    local.apple-giftcard-zh
+// @homepageURL  https://github.com/1clxiso/gm-scripts
+// @supportURL   https://github.com/1clxiso/gm-scripts/issues
+// @updateURL    https://raw.githubusercontent.com/1clxiso/gm-scripts/main/apple-giftcard-zh.user.js
+// @downloadURL  https://raw.githubusercontent.com/1clxiso/gm-scripts/main/apple-giftcard-zh.user.js
+// @version      1.2.1
+// @description  翻译 Apple 美国商店、礼品卡、购物袋、登录、配送、付款及订单页面，支持动态内容与中英文切换。
+// @match        https://www.apple.com/shop/*
+// @match        https://www.apple.com/us/shop/*
+// @match        https://*.store.apple.com/*
+// @match        https://store.apple.com/*
+// @match        https://idmsa.apple.com/appleauth/*
+// @match        https://account.apple.com/*
+// @match        https://appleid.apple.com/*
+// @run-at       document-start
+// @grant        none
+// ==/UserScript==
+
+(function () {
+  'use strict';
+
+  // 启动与遍历结构参考用户提供的脚本：
+  // https://raw.githubusercontent.com/luestr/userscripts/main/i18n/decrypt.34306.lol-zh-CN.user.js
+  // document-start → 首屏扫描 → MutationObserver → 短时补扫。
+  // 翻译仅操作文本节点和展示属性，不修改表单 value，也不接管网页原型。
+  const DICT = [
+    ['Buy Apple Gift Card', '购买 Apple 礼品卡'],
+    ['Buy Apple Gift Cards', '购买 Apple 礼品卡'],
+    ['Buy Apple Gift Cards - Apple', '购买 Apple 礼品卡 - Apple'],
+    ['Apple Gift Card', 'Apple 礼品卡'],
+    ['Apple Gift Cards', 'Apple 礼品卡'],
+    ['Use it to shop the App Store, Apple TV, Apple Music, iTunes, Apple Arcade, the Apple Store app, apple.com, and the Apple Store.', '可用于 App Store、Apple TV、Apple Music、iTunes、Apple Arcade、Apple Store App、apple.com 和 Apple Store 零售店。'],
+    ['How would you like to send it?', '你想如何送出礼品卡？'],
+    ['Choose to send by mail and get a collectible sticker.', '选择邮寄，可获赠收藏贴纸。'],
+    ['Email', '电子邮件'], ['Mail', '邮寄'],
+    ['Choose a design.', '选择卡面设计。'], ['Choose a design', '选择卡面设计'],
+    ['Choose an amount.', '选择金额。'], ['Choose an amount', '选择金额'],
+    ['Other Amount', '其他金额'], ['Currency USD', '币种：美元（USD）'],
+    ['Enter your delivery details.', '填写配送信息。'],
+    ["Who’s it for?", '送给谁？'], ["Who's it for?", '送给谁？'],
+    ["Who’s it from?", '由谁送出？'], ["Who's it from?", '由谁送出？'],
+    ['Recipient Name', '收件人姓名'], ['Recipient Email Address', '收件人电子邮箱'],
+    ['Recipient Email', '收件人电子邮箱'], ['Sender Name', '发件人姓名'],
+    ['Sender Email Address', '发件人电子邮箱'], ['Sender Email', '发件人电子邮箱'],
+    ['Want to add a personalized message?', '想添加专属祝福语吗？'],
+    ['Add your message', '添加祝福语'], ['Add message', '添加祝福语'],
+    ['No message', '不添加祝福语'], ['Your message', '你的祝福语'],
+    ['Message', '祝福语'], ['Optional', '选填'], ['(Optional)', '（选填）'],
+    ['Usually arrives within 1 hour', '通常在 1 小时内送达'],
+    ['Select', '选择'], ['Continue', '继续'], ['Add to Bag', '加入购物袋'],
+    ['Review', '查看'], ['Edit', '编辑'], ['Done', '完成'], ['Cancel', '取消'],
+    ['Close', '关闭'], ['Save', '保存'], ['Remove', '移除'],
+    ['Need a moment?', '需要再考虑一下？'],
+    ['Keep all your selections by saving this device to Your Saves, then come back anytime and pick up right where you left off.', '将当前选择保存到收藏，方便随时回来继续。'],
+    ['Save for later', '保存以便稍后查看'], ['Your Saves', '你的收藏'],
+    ['Need some help?', '需要帮助？'], ['Call', '致电'],
+    ['Where can I use my Apple Gift Card?', 'Apple 礼品卡可以用在哪里？'],
+    ['Store', '商店'], ['Home', '家居'], ['Entertainment', '娱乐'],
+    ['Accessories', '配件'], ['Support', '支持'], ['Shopping Bag', '购物袋'],
+    ['Bag', '购物袋'], ['Search apple.com', '搜索 apple.com'], ['Search', '搜索'],
+    ['Menu', '菜单'], ['Global', '全站导航'], ['Local', '本页导航'],
+    ['Music', '音乐'], ['Books', '图书'],
+    ['Shop and Learn', '选购及了解'], ['Apple Wallet', 'Apple 钱包'],
+    ['Account', '账户'], ['For Business', '商务应用'], ['For Education', '教育应用'],
+    ['For Healthcare', '医疗健康'], ['For Government', '政府应用'],
+    ['Apple Values', 'Apple 价值观'], ['About Apple', '关于 Apple'],
+    ['More Apple Store Links', '更多 Apple Store 链接'],
+    ['United States', '美国'], ['Privacy Policy', '隐私政策'],
+    ['Terms of Use', '使用条款'], ['Sales and Refunds', '销售及退款'],
+    ['Legal', '法律信息'], ['Site Map', '网站地图'],
+    ['Footer', '页脚'], ['footnotes', '附注'], ['Breadcrumbs', '导航路径'],
+    ['More ways to shop:', '更多选购方式：'], ['Find an Apple Store', '查找 Apple Store 零售店'],
+    ['other retailer', '其他零售商'], ['or', '或'], ['near you. Or call', '，或致电'],
+    ['Apple Support', 'Apple 支持'], ['(Opens in a new window)', '（在新窗口中打开）'],
+    ['here', '此处'],
+    ['Beware of gift card scams. Do not share your code.', '谨防礼品卡诈骗。请勿向他人透露兑换码。'],
+    ['Valid only for U.S. transactions in Apple properties. For assistance, visit', '仅适用于美国地区的 Apple 交易。如需帮助，请访问'],
+    ['or call 800-275-2273. Not redeemable at Apple resellers or for cash, and no resale, refunds, or exchanges, except as required by law. Apple is not responsible for unauthorized use. Terms apply; see', '或致电 800-275-2273。不可在 Apple 经销商处兑换或兑换现金，除法律要求外，不可转售、退款或换货。Apple 对未经授权的使用不承担责任。适用条款请参阅'],
+    ['CAUTION. Gift Cards are for gifts, NOT demands for payment, emergency or otherwise.', '注意：礼品卡用于赠礼，不用于应对任何付款要求，包括紧急付款要求。'],
+    ['Maryland Residents: Report incidents to the MD Consumer Protection Division at 1-888-743-0023.', '马里兰州居民：如需举报，请拨打马里兰州消费者保护部门电话 1-888-743-0023。'],
+    ['New Jersey Residents: Report incidents to the NJ Division of Consumer Affairs at 1-800-242-5846.', '新泽西州居民：如需举报，请拨打新泽西州消费者事务部门电话 1-800-242-5846。'],
+    ['Be wary of any requests for payment via gift cards - no legitimate business or government agency will ever ask for payment (such as for utility bills, bail, or to pay traffic tickets or tolls) in the form of gift cards. If that is why you are purchasing a gift card - pause and think twice.', '警惕任何要求使用礼品卡付款的请求。正规企业或政府机构不会要求用礼品卡支付水电费、保释金、交通罚单或通行费等。如果你因此购买礼品卡，请暂停并慎重考虑。'],
+    ['DO NOT give gift card information - including via phone, text, email, or photo - to pay bills or fees, or to fix any other problem. Gift cards are not meant for cash transfers.', '不要通过电话、短信、电子邮件或照片等方式提供礼品卡信息，以支付账单、费用或解决其他问题。礼品卡不用于现金转账。'],
+    ['If you received an urgent call, text, or email from a co-worker, family member, or friend, asking for a gift card, reach out to that person directly to confirm that they need your help. If a caller told you to lie to a store clerk about why you are purchasing gift cards, this is likely a scam.', '如果同事、家人或朋友通过紧急电话、短信或邮件索要礼品卡，请直接联系本人核实。如果来电者要求你向店员隐瞒购买礼品卡的原因，这很可能是诈骗。'],
+    ['Before buying a gift card, check to see if the packaging has been tampered with and ensure the PIN on the back of the card is not visible (it should be covered by a scratch-off seal). Keep the receipt or the gift card ID number to file a report if you lose the gift card or suspect fraud.', '购买前请检查包装是否被拆动，并确保卡背面的 PIN 码被刮刮涂层遮盖。请保留收据或礼品卡编号，以便在丢失礼品卡或怀疑遭遇诈骗时举报。'],
+    ['IF YOU SUSPECT YOU HAVE BEEN THE VICTIM OF A GIFT CARD SCAM OR SUSPECT GIFT CARD FRAUD, REPORT IT TO:', '如果你怀疑遭遇礼品卡诈骗或发现礼品卡欺诈，请向以下机构举报：'],
+    ['The Federal Trade Commission', '美国联邦贸易委员会'],
+    ['The Federal Bureau of Investigation’s Internet Crime Complaint Center', '美国联邦调查局互联网犯罪投诉中心'],
+    ['The New Jersey Division of Consumer Affairs', '新泽西州消费者事务部门'],
+    ['Your local police department who can issue a police report that may help you work with the card issuer to obtain a refund.', '当地警察部门可出具报案记录，可能有助于你向发卡机构申请退款。'],
+    ['We approximate your location from your internet IP address by matching it to a geographic region or from the location entered during your previous visit to Apple.', '我们通过将你的 IP 地址匹配到地理区域，或根据你上次访问 Apple 时输入的位置，估算你的位置。'],
+    ['Please enter a valid email address.', '请输入有效的电子邮箱地址。'],
+    ['Please enter a name.', '请输入姓名。'], ['This field is required.', '此项为必填。'],
+    ['Please enter an amount.', '请输入金额。'],
+    ['Apple logo containing bright multicolor 3D geometric design, triangles of red, pink, purple, blue, green, and orange', 'Apple 标志：红、粉、紫、蓝、绿、橙色三角形组成的立体彩色几何图案'],
+    ['Apple logo containing camouflage pattern, gradient sky blue, teal, purple, and black', 'Apple 标志：天蓝、青绿、紫、黑色渐变迷彩图案'],
+    ['Apple logo cotaining multicolor abstract splashes and pixels, neon pink, red, orange, blue, and yellow', 'Apple 标志：粉、红、橙、蓝、黄色抽象飞溅和像素图案'],
+    ['Apple logo containing pattern of circles and thick rounded lines, repeating colorblocks of lilac purple, dark green, and neon yellow', 'Apple 标志：淡紫、深绿、荧光黄色圆形和粗圆线条图案'],
+    ['Apple logo containing abstract swirled multicolor design, spectrum of bright and dark shades', 'Apple 标志：明暗交织的彩色抽象旋涡图案'],
+
+    // 购物袋、访客结账、登录、配送、付款及订单页面。
+    ["Bag - Apple", "购物袋 - Apple"],
+    ["Checkout - Apple", "结账 - Apple"],
+    ["Check Out - Apple", "结账 - Apple"],
+    ["Secure Checkout - Apple", "安全结账 - Apple"],
+    ["Sign In - Apple", "登录 - Apple"],
+    ["Your bag is empty.", "你的购物袋是空的。"],
+    ["Sign in to see if you have any saved items. Or continue shopping.", "登录以查看已保存的商品，或继续选购。"],
+    ["Free delivery and free returns.", "免费配送，免费退货。"],
+    ["Free shipping and free returns.", "免费配送，免费退货。"],
+    ["Check Out", "结账"],
+    ["Checkout", "结账"],
+    ["Check out with Pay", "使用 Apple Pay 结账"],
+    ["Check Out with Apple Pay", "使用 Apple Pay 结账"],
+    ["Check Out with", "结账方式："],
+    ["Check out with Pay", "使用 Pay 结账"],
+    ["Pay with Apple Pay", "使用 Apple Pay 付款"],
+    ["Buy with Apple Pay", "使用 Apple Pay 购买"],
+    ["Check out with other payment options", "使用其他付款方式结账"],
+    ["Checkout with other payment options", "使用其他付款方式结账"],
+    ["Review Bag", "查看购物袋"],
+    ["View Bag", "查看购物袋"],
+    ["Your Bag", "你的购物袋"],
+    ["Review your bag.", "查看你的购物袋。"],
+    ["Continue Shopping", "继续选购"],
+    ["Continue to Checkout", "继续结账"],
+    ["Apple Gift Card by Mail", "邮寄 Apple 礼品卡"],
+    ["Apple Gift Card by Email", "电子 Apple 礼品卡"],
+    ["Your gift card message", "你的礼品卡祝福语"],
+    ["None", "无"],
+    ["In stock and ready to ship.", "现货，可发货。"],
+    ["None In stock and ready to ship. Apple Store Pickup is currently unavailable", "无。现货，可发货。目前不支持 Apple Store 到店取货。"],
+    ["Apple Store Pickup is currently unavailable", "目前不支持 Apple Store 到店取货"],
+    ["Subtotal", "小计"],
+    ["Shipping", "配送"],
+    ["Shipping:", "配送："],
+    ["Delivery", "配送"],
+    ["Delivery:", "配送："],
+    ["Shipping & Handling", "运费及手续费"],
+    ["Shipping and handling", "运费及手续费"],
+    ["Free Shipping", "免费配送"],
+    ["Free Delivery", "免费配送"],
+    ["FREE", "免费"],
+    ["In Stock", "有现货"],
+    ["Total", "合计"],
+    ["Total:", "合计："],
+    ["Order Total", "订单总计"],
+    ["Estimated Total", "预估总计"],
+    ["Tax", "税费"],
+    ["Estimated Tax", "预估税费"],
+    ["Estimated tax for:", "预估税费地区："],
+    ["Estimated tax", "预估税费"],
+    ["Sales Tax", "销售税"],
+    ["Estimated Sales Tax", "预估销售税"],
+    ["Calculate", "计算"],
+    ["Quantity", "数量"],
+    ["Qty", "数量"],
+    ["Qty:", "数量："],
+    ["Item", "商品"],
+    ["Items", "商品"],
+    ["Discount", "优惠"],
+    ["Discounts", "优惠"],
+    ["Savings", "优惠金额"],
+    ["Promotion Code", "优惠码"],
+    ["Promo Code", "优惠码"],
+    ["Apply", "应用"],
+    ["Apply Gift Card", "使用礼品卡"],
+    ["Gift Card", "礼品卡"],
+    ["Gift Cards", "礼品卡"],
+    ["Gift card PIN", "礼品卡 PIN 码"],
+    ["PIN", "PIN 码"],
+    ["Redeem", "兑换"],
+    ["Balance", "余额"],
+    ["Get Daily Cash with Apple Card", "使用 Apple Card 获取 Daily Cash 返现"],
+    ["Get delivery dates", "查看送达日期"],
+    ["Delivery options", "配送选项"],
+    ["Delivery Options", "配送选项"],
+    ["Delivery method", "配送方式"],
+    ["Shipping Method", "配送方式"],
+    ["Standard Delivery", "标准配送"],
+    ["Standard Shipping", "标准配送"],
+    ["Express Shipping", "加急配送"],
+    ["Express Delivery", "加急配送"],
+    ["Delivery Details", "配送信息"],
+    ["Shipping Details", "配送信息"],
+    ["Delivery Address", "配送地址"],
+    ["Shipping Address", "收货地址"],
+    ["Ship to", "配送至"],
+    ["Ship to:", "配送至："],
+    ["Deliver to", "配送至"],
+    ["Deliver to:", "配送至："],
+    ["Where should we send your order?", "你的订单要送到哪里？"],
+    ["Where should we deliver your order?", "你的订单要送到哪里？"],
+    ["Where would you like your order delivered?", "你希望订单送到哪里？"],
+    ["Where do you want to pick up your order?", "你想在哪里领取订单？"],
+    ["How would you like to get your order?", "你想如何收取订单？"],
+    ["How would you like to receive your order?", "你想如何收取订单？"],
+    ["Choose a delivery method.", "选择配送方式。"],
+    ["Choose your delivery options.", "选择配送选项。"],
+    ["Continue to Shipping Address", "继续填写收货地址"],
+    ["Continue to Delivery", "继续选择配送"],
+    ["Continue to Billing", "继续填写账单信息"],
+    ["Continue to Payment", "继续选择付款方式"],
+    ["Continue to Review", "继续查看订单"],
+    ["Continue to Order Review", "继续查看订单"],
+    ["Pickup", "到店取货"],
+    ["Pick up", "到店取货"],
+    ["Pick Up", "到店取货"],
+    ["Apple Store Pickup", "Apple Store 到店取货"],
+    ["Pickup Details", "取货信息"],
+    ["Pickup Contact", "取货联系人"],
+    ["Choose a Store", "选择零售店"],
+    ["Find a Store", "查找零售店"],
+    ["Check availability", "查看库存"],
+    ["Available", "有货"],
+    ["Unavailable", "暂不可用"],
+    ["Not available", "暂不可用"],
+    ["Contact Information", "联系信息"],
+    ["Contact Details", "联系信息"],
+    ["Contact", "联系人"],
+    ["Who’s picking up your order?", "谁来领取订单？"],
+    ["Who's picking up your order?", "谁来领取订单？"],
+    ["First Name", "名字"],
+    ["Last Name", "姓氏"],
+    ["Full Name", "姓名"],
+    ["Name", "姓名"],
+    ["Company Name", "公司名称"],
+    ["Company", "公司"],
+    ["Street Address", "街道地址"],
+    ["Address", "地址"],
+    ["Address Line 1", "地址第 1 行"],
+    ["Address Line 2", "地址第 2 行"],
+    ["Street Address 2", "街道地址第 2 行"],
+    ["Apartment, suite, building, etc.", "公寓、套房、楼栋等"],
+    ["Apt, Suite, Building (Optional)", "公寓、套房、楼栋（选填）"],
+    ["Apt, Suite, Building", "公寓、套房、楼栋"],
+    ["Apartment/Suite", "公寓／套房"],
+    ["City", "城市"],
+    ["State", "州"],
+    ["State/Province", "州／省"],
+    ["ZIP Code", "邮政编码"],
+    ["Zip Code", "邮政编码"],
+    ["ZIP code", "邮政编码"],
+    ["Postal Code", "邮政编码"],
+    ["ZIP", "邮政编码"],
+    ["Country", "国家"],
+    ["Country/Region", "国家／地区"],
+    ["Country or Region", "国家或地区"],
+    ["Phone", "电话"],
+    ["Phone Number", "电话号码"],
+    ["Mobile Phone", "手机号码"],
+    ["Mobile Phone Number", "手机号码"],
+    ["Daytime Phone", "日间联系电话"],
+    ["Area Code", "区号"],
+    ["Extension", "分机号"],
+    ["Email Address", "电子邮箱地址"],
+    ["Email address", "电子邮箱地址"],
+    ["Confirm Email Address", "确认电子邮箱地址"],
+    ["Use this address", "使用此地址"],
+    ["Use This Address", "使用此地址"],
+    ["Add a new address", "添加新地址"],
+    ["Add New Address", "添加新地址"],
+    ["Edit Address", "编辑地址"],
+    ["Save Address", "保存地址"],
+    ["Suggested Address", "建议地址"],
+    ["You Entered", "你输入的地址"],
+    ["Use Suggested Address", "使用建议地址"],
+    ["Use Original Address", "使用原地址"],
+    ["Verify your address", "核实你的地址"],
+    ["Billing", "账单"],
+    ["Billing Address", "账单地址"],
+    ["Billing Information", "账单信息"],
+    ["Billing Details", "账单信息"],
+    ["Same as shipping address", "与收货地址相同"],
+    ["Same as delivery address", "与配送地址相同"],
+    ["Use a different billing address", "使用其他账单地址"],
+    ["Payment", "付款"],
+    ["Payment Method", "付款方式"],
+    ["Payment Methods", "付款方式"],
+    ["Payment Information", "付款信息"],
+    ["Payment Details", "付款信息"],
+    ["How would you like to pay?", "你想如何付款？"],
+    ["How do you want to pay?", "你想如何付款？"],
+    ["Choose a payment method.", "选择付款方式。"],
+    ["Select a payment method", "选择付款方式"],
+    ["Credit or Debit Card", "信用卡或借记卡"],
+    ["Credit/Debit Card", "信用卡／借记卡"],
+    ["Credit Card", "信用卡"],
+    ["Debit Card", "借记卡"],
+    ["Card Number", "卡号"],
+    ["Credit Card Number", "信用卡卡号"],
+    ["Name on Card", "持卡人姓名"],
+    ["Cardholder Name", "持卡人姓名"],
+    ["Expiration Date", "有效期"],
+    ["Expiry Date", "有效期"],
+    ["Expiration", "有效期"],
+    ["Month", "月"],
+    ["Year", "年"],
+    ["MM/YY", "月／年"],
+    ["MM / YY", "月／年"],
+    ["Security Code", "安全码"],
+    ["CVV", "CVV 安全码"],
+    ["CVV/CVC", "CVV／CVC 安全码"],
+    ["What is this?", "这是什么？"],
+    ["Add a card", "添加银行卡"],
+    ["Use a different card", "使用其他银行卡"],
+    ["Other payment options", "其他付款方式"],
+    ["Pay in Full", "一次性付清"],
+    ["Pay Monthly", "按月付款"],
+    ["Monthly Installments", "每月分期付款"],
+    ["Pay Now", "立即付款"],
+    ["Pay Later", "稍后付款"],
+    ["Review Your Order", "查看你的订单"],
+    ["Review your order.", "查看你的订单。"],
+    ["Review Order", "查看订单"],
+    ["Order Review", "订单核对"],
+    ["Order Summary", "订单摘要"],
+    ["Order Details", "订单详情"],
+    ["Order Information", "订单信息"],
+    ["Place Your Order", "提交订单"],
+    ["Place Order", "提交订单"],
+    ["Complete Order", "完成订单"],
+    ["Complete Purchase", "完成购买"],
+    ["Confirm Order", "确认订单"],
+    ["Confirm Purchase", "确认购买"],
+    ["Submit Order", "提交订单"],
+    ["Confirm and Pay", "确认并付款"],
+    ["Buy Now", "立即购买"],
+    ["Processing", "处理中"],
+    ["Processing…", "处理中…"],
+    ["Processing...", "处理中…"],
+    ["Please wait", "请稍候"],
+    ["Please wait...", "请稍候…"],
+    ["Loading", "正在加载"],
+    ["Loading...", "正在加载…"],
+    ["Loading…", "正在加载…"],
+    ["Back", "返回"],
+    ["Go Back", "返回"],
+    ["Change", "更改"],
+    ["Change Delivery", "更改配送方式"],
+    ["Change Payment", "更改付款方式"],
+    ["Show Details", "显示详情"],
+    ["Hide Details", "隐藏详情"],
+    ["Show More", "显示更多"],
+    ["Show Less", "收起"],
+    ["Learn More", "进一步了解"],
+    ["Yes", "是"],
+    ["No", "否"],
+    ["Required", "必填"],
+    ["Required field", "必填项"],
+    ["Please enter your first name.", "请输入你的名字。"],
+    ["Please enter your last name.", "请输入你的姓氏。"],
+    ["Please enter a valid ZIP Code.", "请输入有效的邮政编码。"],
+    ["Please enter a valid zip code.", "请输入有效的邮政编码。"],
+    ["Please enter a valid phone number.", "请输入有效的电话号码。"],
+    ["Please enter a valid card number.", "请输入有效的卡号。"],
+    ["Please enter a valid security code.", "请输入有效的安全码。"],
+    ["Please check your information and try again.", "请检查所填信息，然后重试。"],
+    ["Something went wrong.", "出现错误。"],
+    ["Please try again.", "请重试。"],
+    ["Try Again", "重试"],
+    ["Your session has expired.", "你的会话已过期。"],
+    ["Your payment could not be processed.", "无法处理你的付款。"],
+    ["Thank you.", "谢谢。"],
+    ["Thank you for your order.", "感谢你的订购。"],
+    ["Thanks for your order.", "感谢你的订购。"],
+    ["Your order has been placed.", "你的订单已提交。"],
+    ["Order Confirmation", "订单确认"],
+    ["Confirmation", "确认"],
+    ["Order Number", "订单编号"],
+    ["Order number:", "订单编号："],
+    ["Order Status", "订单状态"],
+    ["Track Shipment", "跟踪配送"],
+    ["Track Order", "跟踪订单"],
+    ["View Order", "查看订单"],
+    ["Print", "打印"],
+    ["Print Receipt", "打印收据"],
+    ["Sign In", "登录"],
+    ["Sign in to Apple Store", "登录 Apple Store"],
+    ["Sign in with your Apple Account", "使用 Apple 账户登录"],
+    ["Sign in with your Apple ID", "使用 Apple ID 登录"],
+    ["Apple Account", "Apple 账户"],
+    ["Apple ID", "Apple ID"],
+    ["Email or Phone Number", "邮箱或电话号码"],
+    ["Email or phone number", "邮箱或电话号码"],
+    ["Password", "密码"],
+    ["Remember me", "记住我"],
+    ["Keep me signed in", "保持登录状态"],
+    ["Forgot password?", "忘记密码？"],
+    ["Forgot your Apple ID or password?", "忘记 Apple ID 或密码？"],
+    ["Forgot Apple Account or password?", "忘记 Apple 账户或密码？"],
+    ["Create Your Apple Account", "创建你的 Apple 账户"],
+    ["Create Your Apple ID", "创建你的 Apple ID"],
+    ["Continue as Guest", "以访客身份继续"],
+    ["Check Out as Guest", "以访客身份结账"],
+    ["Guest Checkout", "访客结账"],
+    ["Guest", "访客"],
+    ["Two-Factor Authentication", "双重认证"],
+    ["Verification Code", "验证码"],
+    ["Enter verification code", "输入验证码"],
+    ["Didn't get a verification code?", "没有收到验证码？"],
+    ["Didn’t get a verification code?", "没有收到验证码？"],
+    ["Trust This Browser?", "信任此浏览器？"],
+    ["Trust", "信任"],
+    ["Don't Trust", "不信任"],
+    ["Don’t Trust", "不信任"],
+    ["Resend Code", "重新发送验证码"],
+    ["Terms and Conditions", "条款和条件"],
+    ["Terms & Conditions", "条款和条件"],
+    ["I agree", "我同意"],
+    ["I Agree", "我同意"],
+    ["By placing your order, you agree to Apple's Terms and Conditions.", "提交订单即表示你同意 Apple 的条款和条件。"],
+    ["New Arrivals", "新品上架"],
+    ["Check out the latest accessories.", "选购最新配件。"],
+    ["Shop New Arrivals", "选购新品"],
+    ["Questions About Buying", "购买常见问题"],
+    ["You may also like", "你可能还喜欢"],
+    ["Only at Apple", "Apple 独家"],
+    ["Show more products", "显示更多商品"],
+    ["Chat now", "立即在线交流"],
+    ["Overview", "概览"],
+    ["Pre-Order", "预购"],
+    ["Have an iPhone saved for pre-order?", "已保存待预购的 iPhone？"],
+    ["Manage Your Apple Account", "管理你的 Apple 账户"],
+    ["Apple Store Account", "Apple Store 账户"],
+    ["Shopping Help", "购物帮助"],
+    ["Wallet", "钱包"],
+    ["Certified Refurbished", "认证翻新产品"],
+    ["Financing", "分期付款"],
+    ["Contact Apple", "联系 Apple"],
+    ["Accessibility", "辅助功能"],
+    ["Education", "教育"],
+    ["Environment", "环境"],
+    ["Privacy", "隐私"],
+    ["Newsroom", "新闻发布室"],
+    ["January", "1 月"],
+    ["February", "2 月"],
+    ["March", "3 月"],
+    ["April", "4 月"],
+    ["May", "5 月"],
+    ["June", "6 月"],
+    ["July", "7 月"],
+    ["August", "8 月"],
+    ["September", "9 月"],
+    ["October", "10 月"],
+    ["November", "11 月"],
+    ["December", "12 月"],
+    ["Sign In — Secure Checkout - Apple", "登录 — 安全结账 - Apple"],
+    ["Sign in for faster checkout.", "登录，结账更快捷。"],
+    ["Check out with your Apple Account", "使用 Apple 账户结账"],
+    ["Proceed and create an Apple Account later.", "先继续结账，稍后再创建 Apple 账户。"],
+    ["The Apple Online Store uses industry-standard encryption to protect the confidentiality of the information you submit. Learn more about our", "Apple 在线商店采用行业标准加密技术，保护你提交的信息。进一步了解我们的"],
+    ["Security Policy", "安全政策"],
+    ["Not now", "暂不"],
+    ["Your order", "你的订单"],
+    ["Edit gift message on card for Apple Gift Card by Mail", "编辑邮寄 Apple 礼品卡的祝福语"],
+    ["Quantity for Apple Gift Card by Mail", "邮寄 Apple 礼品卡数量"],
+    ["Remove Apple Gift Card by Mail", "移除邮寄 Apple 礼品卡"],
+    ["Save for later Apple Gift Card by Mail", "保存邮寄 Apple 礼品卡以便稍后查看"],
+    ["Your delivery details", "你的配送信息"],
+    ["Order Options — Secure Checkout", "订单选项 — 安全结账"],
+    ["Shipping Address — Secure Checkout", "收货地址 — 安全结账"],
+    ["Payment — Secure Checkout", "付款 — 安全结账"],
+    ["Review — Secure Checkout", "核对订单 — 安全结账"],
+    ["Order Confirmation - Apple", "订单确认 - Apple"],
+    ["Get your order options", "选择收取订单的方式"],
+    ["I’d like it delivered", "我要配送到家"],
+    ["I'd like it delivered", "我要配送到家"],
+    ["I’ll pick it up", "我要到店取货"],
+    ["I'll pick it up", "我要到店取货"],
+    ["Enter a zip code to get delivery options.", "输入邮政编码以查看配送选项。"],
+    ["Apply Zip Code", "应用邮政编码"],
+    ["Save my location for future visits", "保存我的位置，供下次访问使用"],
+    ["FAQ for Delivery & Pickup", "配送与取货常见问题"],
+    ["Apple uses industry-standard encryption to protect the confidentiality of your personal information.", "Apple 采用行业标准加密技术，保护你的个人信息。"],
+    ["Show Order Summary", "显示订单摘要"],
+    ["Hide Order Summary", "隐藏订单摘要"],
+    ["Delivery dates", "送达日期"],
+    ["Items to be shipped", "待配送商品"],
+    ["To:", "收件人："],
+    ["From:", "发件人："],
+    ["Scheduled delivery", "预约配送"],
+    ["Select delivery date", "选择送达日期"],
+    ["Send date", "发送日期"],
+    ["Today", "今天"],
+    ["Tomorrow", "明天"],
+    ["How should we contact you?", "我们应如何联系你？"],
+    ["Where should we send your receipt?", "收据要发送到哪里？"],
+    ["Where should we email your receipt?", "电子收据要发送到哪个邮箱？"],
+    ["Enter your payment details.", "填写付款信息。"],
+    ["Enter your billing address.", "填写账单地址。"],
+    ["Check your order details.", "核对订单信息。"],
+    ["Please review your order.", "请核对你的订单。"],
+    ["Tax will be calculated at checkout.", "税费将在结账时计算。"],
+    ["Estimated tax will be calculated at checkout.", "预估税费将在结账时计算。"],
+    ["Secure Checkout", "安全结账"],
+    ["Email Delivery", "电子邮件配送"],
+    ["Delivered by email", "通过电子邮件送达"],
+    ["Send by email", "通过电子邮件发送"],
+    ["Add a gift message", "添加礼品祝福语"],
+    ["Gift Message", "礼品祝福语"],
+    ["Your message will appear here.", "你的祝福语将显示在这里。"],
+    ["Order Placed", "订单已提交"],
+    ["Order Received", "订单已收到"],
+    ["We’re processing your order.", "我们正在处理你的订单。"],
+    ["We're processing your order.", "我们正在处理你的订单。"],
+    ["Your order is being processed.", "你的订单正在处理中。"],
+    ["Preparing to Ship", "正在准备发货"],
+    ["Shipped", "已发货"],
+    ["Delivered", "已送达"],
+    ["Canceled", "已取消"],
+    ["Cancelled", "已取消"],
+    ["Cancel Order", "取消订单"],
+    ["Return to Bag", "返回购物袋"],
+    ["Back to Bag", "返回购物袋"],
+    ["Close Notification", "关闭通知"],
+    ["Delivers to:", "配送至："],
+    ["Select your delivery method: Apple Gift Card by Mail", "选择邮寄 Apple 礼品卡的配送方式"],
+    ["Keep this in mind about your selection:", "请留意所选配送方式的以下事项："],
+    ["The carrier may require a signature upon delivery.", "承运商可能要求收件时签名。"],
+    ["In-Transit Options: Once your order has been shipped, you can use your tracking link to redirect your shipment to a pickup point, hold it at a secure location, or fill out a signature waiver or shipment release.", "运输途中选项：订单发货后，可通过物流跟踪链接将包裹转送至取件点、暂存至安全地点，或填写免签收或包裹放行授权。"],
+    ["View Apple Shipping Policy", "查看 Apple 配送政策"],
+    ["Continue to shipping and fulfillment", "继续填写配送信息"],
+    ["Continue to billing and payment", "继续填写账单与付款信息"],
+    ["Continue to review", "继续核对订单"],
+    ["Shipping & Fulfillment", "配送与收货"],
+    ["Billing & Payment", "账单与付款"],
+    ["Use a credit or debit card", "使用信用卡或借记卡"],
+    ["Enter a gift card", "输入礼品卡信息"],
+    ["Enter a gift card PIN", "输入礼品卡 PIN 码"],
+    ["Your gift card balance", "你的礼品卡余额"],
+    ["Shipping Details — Secure Checkout", "配送信息 — 安全结账"],
+    ["Your delivery zip code has changed. To continue with your selected delivery dates, your zip code and address must match.", "你的配送邮政编码已更改。若要保留所选送达日期，邮政编码必须与收货地址一致。"],
+    ["Enter your name and address:", "填写你的姓名和地址："],
+    ["Apartment, Suite, Building (Optional)", "公寓、套房、楼栋（选填）"],
+    ["City, State", "城市、州"],
+    ["Other", "其他"],
+    ["This is a business address.", "这是公司地址。"],
+    ["Business shipments are usually delivered Monday through Friday from 8:00 a.m. to 6:00 p.m. and residential shipments are usually delivered Monday through Saturday from 8:00 a.m. to 6:00 p.m.", "公司地址通常于周一至周五上午 8 点至下午 6 点配送；住宅地址通常于周一至周六上午 8 点至下午 6 点配送。"],
+    ["What’s your contact information?", "你的联系信息是什么？"],
+    ["What's your contact information?", "你的联系信息是什么？"],
+    ["We’ll email you a receipt and send order updates to your mobile phone via SMS or iMessage.", "我们会通过电子邮件发送收据，并通过短信或 iMessage 向你的手机发送订单更新。"],
+    ["The phone number you enter can’t be changed after you place your order, so please make sure it’s correct.", "订单提交后无法更改你填写的电话号码，请确保号码正确。"],
+    ["Share shipping updates with someone else:", "与其他人分享配送更新："],
+    ["Enter an email address", "输入电子邮箱地址"],
+    ["FAQ for Shipping", "配送常见问题"],
+    ["FAQ for Payment", "付款常见问题"],
+    ["Order now.", "立即订购。"],
+    ["Pick up in-store:", "到店取货："],
+  ];
+  const EXACT = new Map(DICT.map(([en, zh]) => [normalize(en), zh]));
+
+  const CASE_INSENSITIVE = new Map(DICT.map(([en, zh]) => [normalize(en).toLowerCase(), zh]));
+
+  function normalize(text) {
+    return text.replace(/[\u00a0\u202f]/g, ' ').replace(/\s+/g, ' ').trim();
+  }
+
+  function translateDeliveryDetails(text) {
+    // 仅用于 Delivers ... 配送模板，不对一般姓名、地址或金额做片段替换。
+    const fragments = [
+      ['Express Delivery', '加急配送'], ['Standard Delivery', '标准配送'],
+      ['Tomorrow', '明天'], ['Today', '今天'], ['FREE', '免费'],
+      ['Monday', '周一'], ['Tuesday', '周二'], ['Wednesday', '周三'],
+      ['Thursday', '周四'], ['Friday', '周五'], ['Saturday', '周六'], ['Sunday', '周日'],
+      ['Mon', '周一'], ['Tue', '周二'], ['Wed', '周三'], ['Thu', '周四'],
+      ['Fri', '周五'], ['Sat', '周六'], ['Sun', '周日'],
+      ['Jan', '1 月'], ['Feb', '2 月'], ['Mar', '3 月'], ['Apr', '4 月'],
+      ['May', '5 月'], ['Jun', '6 月'], ['Jul', '7 月'], ['Aug', '8 月'],
+      ['Sep', '9 月'], ['Oct', '10 月'], ['Nov', '11 月'], ['Dec', '12 月'],
+    ];
+    for (const [en, zh] of fragments) text = text.replace(new RegExp('\\b' + en + '\\b', 'g'), zh);
+    return text;
+  }
+
+  function translate(text) {
+    const key = normalize(text);
+    if (!key) return text;
+    let result = EXACT.get(key) || CASE_INSENSITIVE.get(key.toLowerCase());
+    if (!result) {
+      const optional = key.match(/^(.*?)\s*\((Optional|Required)\)$/i);
+      if (optional) {
+        const base = EXACT.get(optional[1]) || CASE_INSENSITIVE.get(optional[1].toLowerCase());
+        if (base) result = base + (optional[2].toLowerCase() === 'optional' ? '（选填）' : '（必填）');
+      }
+      // 仅处理已知模板，金额和号码原样保留。
+      const rules = [
+        [/^Your shipping total is (\$[\d,.]+)\.?$/i, '你的配送费用合计为 $1'],
+        [/^Show Order Summary: (\$[\d,.]+)$/i, '显示订单摘要：$1'],
+        [/^Hide Order Summary: (\$[\d,.]+)$/i, '隐藏订单摘要：$1'],
+        [/^Your bag total is (\$[\d,.]+)\.$/i, '你的购物袋总计为 $1。'],
+        [/^Buy (\$[\d,.]+) Apple Gift Cards? - Apple$/i, '购买 $1 Apple 礼品卡 - Apple'],
+        [/^(\d+) items?$/i, '$1 件商品'],
+        [/^Quantity for (.+)$/i, '商品数量：$1'],
+        [/^Remove (Apple Gift Card.*)$/i, '移除 $1'],
+        [/^Save for later (Apple Gift Card.*)$/i, '保存 $1 以便稍后查看'],
+        [/^Order (?:Number|number): (.+)$/, '订单编号：$1'],
+        [/^Order Total: (\$[\d,.]+)$/i, '订单总计：$1'],
+        [/^Total: (\$[\d,.]+)$/i, '合计：$1'],
+        [/^Subtotal: (\$[\d,.]+)$/i, '小计：$1'],
+        [/^Estimated Tax: (\$[\d,.]+)$/i, '预估税费：$1'],
+        [/^Delivery: (.+)$/i, '配送：$1'],
+        [/^Shipping: (.+)$/i, '配送：$1'],
+        [/^Arrives (.+)$/i, '预计送达：$1'],
+        [/^Delivers (.+)$/i, (_, details) => '预计送达：' + translateDeliveryDetails(details)],
+        [/^Ships: (.+)$/i, '发货时间：$1'],
+        [/^Ships in (.+)$/i, '将在 $1 内发货'],
+        [/^Delivery to (.+)$/i, '配送至 $1'],
+        [/^Shipping to (.+)$/i, '配送至 $1'],
+        [/^Email to: (.+)$/i, '发送邮件至：$1'],
+        [/^Sent to: (.+)$/i, '发送至：$1'],
+        [/^Please enter (?:your |a valid )?(first name|last name|phone number|email address|street address|city|ZIP code|postal code|card number|security code)\.$/i,
+          (_, field) => '请输入有效的' + (CASE_INSENSITIVE.get(field.toLowerCase()) || field) + '。'],
+        [/^Copyright © (\d{4}) Apple Inc\. All rights reserved\.$/, '版权所有 © $1 Apple Inc. 保留所有权利。'],
+        [/^\. Issued by Apple Value Services, LLC \(AVS\)\. © (\d{4}) Apple Inc\. All rights reserved\.$/, '。由 Apple Value Services, LLC（AVS）发行。© $1 Apple Inc. 保留所有权利。'],
+        [/^Need some help\? Call (.+?)\s*\.$/, '需要帮助？请致电 $1。'],
+        [/^near you\. Or call (.+?)\s*\.$/, '。或致电 $1。'],
+        [/^(\d+) characters remaining$/, '还可输入 $1 个字符'],
+        [/^Enter an amount between (\$[\d,]+(?:\.\d+)?) and (\$[\d,]+(?:\.\d+)?)\.$/, '请输入 $1 至 $2 之间的金额。'],
+      ];
+      for (const [pattern, replacement] of rules) {
+        if (!result && pattern.test(key)) { result = key.replace(pattern, replacement); break; }
+      }
+      // 无障碍标签常附有新窗口提示和图标。
+      const windowHint = key.match(/^(.*?)\s*\(opens in a new window\)\s*([\uE000-\uF8FF]*)$/i);
+      if (!result && windowHint) {
+        const base = normalize(windowHint[1]);
+        const translated = EXACT.get(base) || CASE_INSENSITIVE.get(base.toLowerCase());
+        if (translated) result = translated + '（在新窗口中打开）' + windowHint[2];
+      }
+      const suffix = ' (Opens in a new window)';
+      if (!result && key.endsWith(suffix)) {
+        const base = EXACT.get(key.slice(0, -suffix.length));
+        if (base) result = `${base}（在新窗口中打开）`;
+      }
+    }
+    if (!result) {
+      const icon = key.match(/^(.*?)([\uE000-\uF8FF]+)$/);
+      if (icon) {
+        const base = normalize(icon[1]);
+        const translated = EXACT.get(base) || CASE_INSENSITIVE.get(base.toLowerCase());
+        if (translated) result = translated + ' ' + icon[2];
+      }
+    }
+    if (!result) return text;
+    return text.match(/^\s*/)[0] + result + text.match(/\s*$/)[0];
+  }
+
+  const ATTRS = ['placeholder', 'title', 'aria-label', 'aria-description', 'aria-valuetext', 'alt'];
+  const SKIP = 'script, style, noscript, template, input, textarea, option:not([value]), code, pre, [contenteditable]:not([contenteditable="false"]), [data-apple-giftcard-zh-ui]';
+  const SKIP_ATTRS = 'script, style, noscript, template, code, pre, [contenteditable]:not([contenteditable="false"]), [data-apple-giftcard-zh-ui]';
+  const originals = new Map();
+  let enabled = true;
+  let toggle = null;
+  let booted = false;
+
+  function write(node, name, current) {
+    if (!current) return;
+    const next = translate(current);
+    if (next === current) return;
+    let entries = originals.get(node);
+    if (!entries) {
+      entries = new Map();
+      originals.set(node, entries);
+    }
+    const previous = entries.get(name);
+    entries.set(name, {
+      original: previous && previous.output === current ? previous.original : current,
+      output: next,
+    });
+    if (name === '#text') node.nodeValue = next;
+    else node.setAttribute(name, next);
+  }
+
+  function translateTextNode(node) {
+    if (!enabled || !node || node.nodeType !== 3) return;
+    const parent = node.parentElement;
+    if (!parent || parent.closest(SKIP)) return;
+    write(node, '#text', node.nodeValue);
+  }
+
+  // Apple Pay 网页按钮可能由 Safari 绘制，文本节点遍历无法修改它。
+  // 使用 Apple 官方提供的 lang / locale，不替换按钮，不改变点击事件。
+  function setPresentation(element, name, output) {
+    const current = element.getAttribute(name);
+    if (current === output) return;
+    let entries = originals.get(element);
+    if (!entries) { entries = new Map(); originals.set(element, entries); }
+    const previous = entries.get(name);
+    entries.set(name, {
+      original: previous && previous.output === current ? previous.original : current,
+      output,
+    });
+    element.setAttribute(name, output);
+  }
+
+  function localizeApplePayButton(element) {
+    if (element.localName === 'apple-pay-button') {
+      setPresentation(element, 'locale', 'zh-CN');
+      return;
+    }
+    if (!element.matches('button, [role="button"], input[type="button"], input[type="submit"]')) return;
+    const hint = [element.id, element.getAttribute('class'), element.getAttribute('aria-label'), element.textContent].join(' ');
+    if (/apple[\s_-]?pay|apwcheckout|\s*pay/i.test(hint)) {
+      setPresentation(element, 'lang', 'zh-CN');
+    }
+  }
+
+  function translateElementAttrs(element) {
+    if (!enabled || !element || element.nodeType !== 1) return;
+    if (element.closest(SKIP_ATTRS)) return;
+    localizeApplePayButton(element);
+    for (const attr of ATTRS) {
+      if (element.hasAttribute(attr)) write(element, attr, element.getAttribute(attr));
+    }
+  }
+
+  function walk(root) {
+    if (!enabled || !root) return;
+    if (root.nodeType === 3) {
+      translateTextNode(root);
+      return;
+    }
+    if (root.nodeType !== 1 && root.nodeType !== 9 && root.nodeType !== 11) return;
+    if (root.nodeType === 1) {
+      translateElementAttrs(root);
+      if (root.closest(SKIP)) return;
+    }
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT, {
+      acceptNode(node) {
+        if (node.nodeType === 1 && node.matches(SKIP)) {
+          // 输入框仅翻译 placeholder 等展示属性，保留 value 和输入内容。
+          translateElementAttrs(node);
+          return NodeFilter.FILTER_REJECT;
+        }
+        return NodeFilter.FILTER_ACCEPT;
+      },
+    });
+    let node;
+    while ((node = walker.nextNode())) {
+      if (node.nodeType === 3) translateTextNode(node);
+      else translateElementAttrs(node);
+    }
+  }
+
+  function updateToggle() {
+    toggle.textContent = enabled ? '查看英文' : '切换中文';
+    toggle.setAttribute('aria-label', enabled ? '切换为英文原文' : '切换为简体中文');
+  }
+
+  function toggleLanguage() {
+    enabled = !enabled;
+    if (enabled) walk(document.documentElement || document);
+    else {
+      for (const [node, entries] of originals) {
+        if (!node.isConnected) continue;
+        for (const [name, entry] of entries) {
+          const current = name === '#text' ? node.nodeValue : node.getAttribute(name);
+          if (current !== entry.output) continue;
+          if (name === '#text') node.nodeValue = entry.original;
+          else if (entry.original === null) node.removeAttribute(name);
+          else node.setAttribute(name, entry.original);
+        }
+      }
+      originals.clear();
+    }
+    updateToggle();
+  }
+
+  function ensureToggle() {
+    // 登录框等内嵌页面也翻译，但只在顶层页面显示切换按钮。
+    if (window.top !== window.self || !document.body || (toggle && toggle.isConnected)) return;
+    if (!toggle) {
+      toggle = document.createElement('button');
+      toggle.type = 'button';
+      toggle.setAttribute('data-apple-giftcard-zh-ui', '');
+      toggle.style.cssText = 'position:fixed;right:16px;bottom:calc(20px + env(safe-area-inset-bottom, 0px));z-index:2147483647;padding:10px 15px;border:1px solid #86868b;border-radius:24px;background:#fff;color:#1d1d1f;font:14px/1.4 system-ui,sans-serif;box-shadow:0 2px 12px #0002;cursor:pointer;';
+      toggle.addEventListener('click', toggleLanguage);
+      updateToggle();
+    }
+    document.body.appendChild(toggle);
+  }
+
+  function pruneOriginals() {
+    for (const node of originals.keys()) {
+      if (!node.isConnected) originals.delete(node);
+    }
+  }
+
+  function startObserver() {
+    const observer = new MutationObserver(mutations => {
+      for (const mutation of mutations) {
+        if (mutation.type === 'characterData') translateTextNode(mutation.target);
+        else if (mutation.type === 'attributes') translateElementAttrs(mutation.target);
+        else {
+          for (const node of mutation.addedNodes) walk(node);
+        }
+      }
+      ensureToggle();
+      // 移除已经离开页面的节点，避免长期保留其引用。
+      if (mutations.some(m => m.type === 'childList' && m.removedNodes.length)) pruneOriginals();
+    });
+    observer.observe(document.documentElement || document, {
+      childList: true, subtree: true, characterData: true,
+      attributes: true, attributeFilter: ATTRS.concat(['lang', 'locale', 'class']),
+    });
+  }
+
+  function boot() {
+    if (booted) return;
+    booted = true;
+    walk(document.documentElement || document);
+    startObserver();
+    ensureToggle();
+    // 参考脚本的短时补扫，覆盖首屏连续重绘；之后只靠观察器更新。
+    let ticks = 0;
+    const timer = setInterval(() => {
+      walk(document.documentElement || document);
+      ensureToggle();
+      pruneOriginals();
+      if (++ticks >= 20) clearInterval(timer);
+    }, 150);
+  }
+
+  if (document.documentElement) boot();
+  else document.addEventListener('DOMContentLoaded', boot, { once: true });
+  window.addEventListener('load', () => {
+    boot();
+    walk(document.documentElement || document);
+    ensureToggle();
+  });
+})();

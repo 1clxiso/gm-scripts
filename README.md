@@ -1,0 +1,47 @@
+# GM Scripts
+
+用于存放和维护个人 GM / Userscript 脚本，适用于 Stay、Tampermonkey 等脚本管理器。
+
+| 脚本 | 功能 | 安装 |
+| --- | --- | --- |
+| [Apple 美国商店购物及结账中文翻译](apple-giftcard-zh.user.js) | 翻译礼品卡、购物袋、配送与结账页面 | [安装脚本](https://raw.githubusercontent.com/1clxiso/gm-scripts/main/apple-giftcard-zh.user.js) |
+
+打开安装链接后交给脚本管理器安装；Stay 也可以使用链接导入。脚本已配置当前仓库的更新地址，后续更新是否自动安装取决于脚本管理器设置。
+
+## Apple 美国商店购物及结账中文翻译
+
+脚本：[apple-giftcard-zh.user.js](apple-giftcard-zh.user.js)，当前版本 **1.2.1**。
+
+## Safari + Stay 安装或更新
+
+1. 在 Stay 中打开原脚本，用本文件的全部代码替换，保存并启用。只保留一个启用的版本。
+2. 在 Safari 中启用 Stay，并允许访问 Apple 商店网站。
+3. 刷新当前页面。进入安全结账页面时，如果 Safari 提示新的域名权限，请允许 Stay 在该 Apple 网站运行。
+4. 默认显示简体中文，右下角可随时切回英文。登录框等内嵌页面自动翻译，不另显示按钮。
+
+Tampermonkey 也可以导入同一份脚本。
+
+## 页面范围
+
+- `www.apple.com/shop/*`、`www.apple.com/us/shop/*`：礼品卡配置及其子路径、商品页、购物袋等。
+- `*.store.apple.com/*`、`store.apple.com/*`：安全结账、登录选择、配送、收货地址、付款、订单核对及订单页面。包括 `secure9.store.apple.com` 等数字分流域名。
+- `idmsa.apple.com/appleauth/*`：内嵌 Apple 账户登录与验证界面。
+- `account.apple.com/*`、`appleid.apple.com/*`：相关 Apple 账户网页。
+
+新版补充购物袋、Check Out、Apple Pay 结账入口、访客结账、地址、配送日期、账单、银行卡字段、税费、错误提示与订单文案。网址中的动态参数及同页切换不会阻止翻译。
+
+## 行为与限制
+
+- 使用本地词典，无外部翻译请求，不上传输入内容。
+- 不更改输入框或文本域的值、密码、银行卡信息、金额、币种、链接或按钮事件；不自动填写、不提交订单。
+- 下拉选项仅在已明确声明 `value` 时翻译显示文字，保持提交值。没有 `value` 的选项保持原文，避免改变表单数据。
+- Apple Pay 网页按钮通过官方 `lang` / `locale` 设置中文；Safari / iOS / macOS 的原生付款面板及银行验证界面不受网页脚本控制，其语言由系统和服务提供方决定。
+- 中文辅助理解，条款可切回英文核对。未收录的新文案、图片内文字、第三方付款页面可能保持原文。没有发生真实付款，付款与订单成功页尚未全流程实测。
+- 中英文切换按当前页面生效；独立登录 iframe 默认中文。
+
+## 验证
+
+已查看实际礼品卡 → 购物袋 → 访客结账 → 配送选项 → 地址页面；本地浏览器检查动态翻译、金额和输入值保护、下拉选项值保护、Apple Pay 按钮本地化及恢复英文。Safari + Stay 的实际安装需在用户环境确认。
+
+启动与遍历结构参考用户提供的可用脚本：
+https://raw.githubusercontent.com/luestr/userscripts/main/i18n/decrypt.34306.lol-zh-CN.user.js
