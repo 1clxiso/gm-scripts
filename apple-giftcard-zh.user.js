@@ -7,7 +7,7 @@
 // @supportURL   https://github.com/1clxiso/gm-scripts/issues
 // @updateURL    https://raw.githubusercontent.com/1clxiso/gm-scripts/main/apple-giftcard-zh.user.js
 // @downloadURL  https://raw.githubusercontent.com/1clxiso/gm-scripts/main/apple-giftcard-zh.user.js
-// @version      1.2.4
+// @version      1.2.5
 // @description  翻译 Apple 美国商店、礼品卡、购物袋、登录、配送、付款及订单页面，支持动态内容与中英文切换。
 // @match        https://www.apple.com/shop/*
 // @match        https://www.apple.com/us/shop/*
@@ -844,153 +844,6 @@
     ["Declined", "已拒绝"],
     ["Error", "错误"],
     ["Authorization", "授权"],
-    // 错误、校验、通知与弹窗候选文案。
-    ["OK", "确定"],
-    ["Okay", "确定"],
-    ["Got it", "知道了"],
-    ["Dismiss", "关闭"],
-    ["Dismiss message", "关闭提示"],
-    ["Close dialog", "关闭对话框"],
-    ["Close Dialog", "关闭对话框"],
-    ["Close modal", "关闭弹窗"],
-    ["Close window", "关闭窗口"],
-    ["Close this window", "关闭此窗口"],
-    ["Close alert", "关闭警告"],
-    ["Error Message", "错误提示"],
-    ["Warning", "警告"],
-    ["Notice", "提示"],
-    ["Attention", "请注意"],
-    ["Important", "重要提示"],
-    ["Please correct the following errors.", "请更正以下错误。"],
-    ["Please correct the errors below.", "请更正下方错误。"],
-    ["Please check the information you entered.", "请检查你填写的信息。"],
-    ["Please complete all required fields.", "请填写所有必填项。"],
-    ["Please fill out all required fields.", "请填写所有必填项。"],
-    ["Please fill out this field.", "请填写此项。"],
-    ["This is a required field.", "此项为必填。"],
-    ["Required information is missing.", "缺少必填信息。"],
-    ["Invalid email address", "电子邮箱地址无效"],
-    ["Invalid phone number", "电话号码无效"],
-    ["Invalid ZIP Code", "邮政编码无效"],
-    ["Invalid postal code", "邮政编码无效"],
-    ["Invalid card number", "卡号无效"],
-    ["Invalid security code", "安全码无效"],
-    ["Invalid expiration date", "到期日期无效"],
-    ["Invalid verification code", "验证码无效"],
-    ["Enter a valid email address.", "请输入有效的电子邮箱地址。"],
-    ["Enter a valid phone number.", "请输入有效的电话号码。"],
-    ["Enter a valid ZIP Code.", "请输入有效的邮政编码。"],
-    ["Enter a valid card number.", "请输入有效的卡号。"],
-    ["Enter a valid security code.", "请输入有效的安全码。"],
-    ["Please enter the recipient’s name.", "请输入收件人姓名。"],
-    ["Please enter the recipient's name.", "请输入收件人姓名。"],
-    ["Please enter the recipient’s email address.", "请输入收件人的电子邮箱地址。"],
-    ["Please enter the recipient's email address.", "请输入收件人的电子邮箱地址。"],
-    ["Please enter the sender’s name.", "请输入发件人姓名。"],
-    ["Please enter the sender's name.", "请输入发件人姓名。"],
-    ["Please enter the sender’s email address.", "请输入发件人的电子邮箱地址。"],
-    ["Please enter the sender's email address.", "请输入发件人的电子邮箱地址。"],
-    ["The email addresses do not match.", "两次填写的电子邮箱地址不一致。"],
-    ["Email addresses do not match.", "电子邮箱地址不一致。"],
-    ["Please confirm your email address.", "请确认你的电子邮箱地址。"],
-    ["Please select a delivery method.", "请选择配送方式。"],
-    ["Please select a payment method.", "请选择付款方式。"],
-    ["Please select a country or region.", "请选择国家或地区。"],
-    ["Please agree to the terms and conditions.", "请同意条款和条件。"],
-    ["Please enter a valid amount.", "请输入有效金额。"],
-    ["The amount entered is not valid.", "填写的金额无效。"],
-    ["Your message is too long.", "你的祝福语过长。"],
-    ["Please shorten your message.", "请缩短你的祝福语。"],
-    ["Your message contains unsupported characters.", "你的祝福语包含不支持的字符。"],
-    ["Please remove unsupported characters from your message.", "请移除祝福语中不支持的字符。"],
-    ["Something went wrong. Please try again.", "出现错误，请重试。"],
-    ["An error occurred. Please try again.", "发生错误，请重试。"],
-    ["There was a problem processing your request.", "处理你的请求时出现问题。"],
-    ["We’re sorry. Something went wrong.", "抱歉，出现错误。"],
-    ["We're sorry. Something went wrong.", "抱歉，出现错误。"],
-    ["We’re sorry, but we are unable to complete your request.", "抱歉，我们无法完成你的请求。"],
-    ["We're sorry, but we are unable to complete your request.", "抱歉，我们无法完成你的请求。"],
-    ["We are unable to process your request at this time.", "我们暂时无法处理你的请求。"],
-    ["Please try again later.", "请稍后重试。"],
-    ["Please refresh the page and try again.", "请刷新页面后重试。"],
-    ["Refresh Page", "刷新页面"],
-    ["Reload Page", "重新加载页面"],
-    ["Reload", "重新加载"],
-    ["Connection Error", "连接错误"],
-    ["Network Error", "网络错误"],
-    ["Network connection lost.", "网络连接已断开。"],
-    ["Please check your internet connection and try again.", "请检查网络连接后重试。"],
-    ["The request timed out.", "请求超时。"],
-    ["Request Timeout", "请求超时"],
-    ["Service Unavailable", "服务暂不可用"],
-    ["Temporarily Unavailable", "暂不可用"],
-    ["Session Expired", "会话已过期"],
-    ["Your session has timed out.", "你的会话已超时。"],
-    ["For your security, your session has timed out.", "为了保护你的安全，会话已超时。"],
-    ["Please sign in again.", "请重新登录。"],
-    ["Sign In Again", "重新登录"],
-    ["Your bag has changed.", "你的购物袋已发生变化。"],
-    ["Please review your bag before continuing.", "继续前请核对购物袋。"],
-    ["This item is no longer available.", "此商品已无法购买。"],
-    ["This item is currently unavailable.", "此商品暂不可购买。"],
-    ["The requested quantity is not available.", "无法提供所需数量。"],
-    ["Please reduce the quantity and try again.", "请减少数量后重试。"],
-    ["The price of an item in your bag has changed.", "购物袋中某件商品的价格已更改。"],
-    ["Your delivery options have changed.", "你的配送选项已更改。"],
-    ["Please select a new delivery option.", "请选择新的配送选项。"],
-    ["We couldn’t verify your address.", "我们无法核实你的地址。"],
-    ["We couldn't verify your address.", "我们无法核实你的地址。"],
-    ["Please check your address and try again.", "请检查地址后重试。"],
-    ["This address is not eligible for delivery.", "此地址不支持配送。"],
-    ["We cannot ship to this address.", "我们无法配送到此地址。"],
-    ["We are unable to process your payment.", "我们无法处理你的付款。"],
-    ["There was a problem with your payment.", "你的付款出现问题。"],
-    ["Your payment authorization failed.", "你的付款授权失败。"],
-    ["Please check your card or try a different card.", "请检查银行卡信息，或尝试使用其他银行卡。"],
-    ["Your card information is incorrect.", "你的银行卡信息不正确。"],
-    ["Your billing information is incorrect.", "你的账单信息不正确。"],
-    ["The security code is incorrect.", "安全码不正确。"],
-    ["The expiration date is invalid.", "到期日期无效。"],
-    ["Insufficient funds", "余额不足"],
-    ["Your payment method is not supported.", "不支持你的付款方式。"],
-    ["Your bank declined this payment.", "你的银行拒绝了此次付款。"],
-    ["Verification was not completed.", "验证尚未完成。"],
-    ["Verification was canceled.", "验证已取消。"],
-    ["Verification timed out.", "验证超时。"],
-    ["We were unable to verify your payment.", "我们无法验证你的付款。"],
-    ["Too many attempts. Please try again later.", "尝试次数过多，请稍后重试。"],
-    ["Too many verification attempts.", "验证尝试次数过多。"],
-    ["The verification code is incorrect.", "验证码不正确。"],
-    ["The verification code has expired.", "验证码已过期。"],
-    ["Your account has been locked.", "你的账户已被锁定。"],
-    ["We couldn’t place your order.", "我们未能提交你的订单。"],
-    ["We couldn't place your order.", "我们未能提交你的订单。"],
-    ["Your order could not be completed.", "你的订单未能完成。"],
-    ["Your order has not been placed.", "你的订单尚未提交。"],
-    ["Please review your payment information and try again.", "请核对付款信息后重试。"],
-    ["Do not submit your order again.", "请勿重复提交订单。"],
-    ["Please do not click the Place Order button again.", "请勿再次点击提交订单按钮。"],
-    ["Are you sure?", "你确定吗？"],
-    ["Are you sure you want to remove this item?", "确定要移除此商品吗？"],
-    ["Are you sure you want to cancel your order?", "确定要取消你的订单吗？"],
-    ["Are you sure you want to cancel this order?", "确定要取消此订单吗？"],
-    ["Are you sure you want to cancel this item?", "确定要取消此商品吗？"],
-    ["Are you sure you want to leave this page?", "确定要离开此页面吗？"],
-    ["Your changes have not been saved.", "你的更改尚未保存。"],
-    ["Your changes will be lost.", "你的更改将丢失。"],
-    ["Discard Changes", "放弃更改"],
-    ["Keep Editing", "继续编辑"],
-    ["Save Changes", "保存更改"],
-    ["Leave Page", "离开页面"],
-    ["Stay on Page", "留在此页面"],
-    ["Remove Item", "移除商品"],
-    ["Keep Item", "保留商品"],
-    ["Continue Checkout", "继续结账"],
-    ["Return to Checkout", "返回结账"],
-    ["Confirm Cancellation", "确认取消"],
-    ["Keep Order", "保留订单"],
-    ["No, keep my order", "不，保留我的订单"],
-    ["Yes, cancel my order", "是，取消我的订单"],
   ];
   const MONTH_LABELS = new Map([["January", "1 月"], ["February", "2 月"], ["March", "3 月"], ["April", "4 月"], ["May", "5 月"], ["June", "6 月"], ["July", "7 月"], ["August", "8 月"], ["September", "9 月"], ["October", "10 月"], ["November", "11 月"], ["December", "12 月"]]);
   const EXACT = new Map(DICT.map(([en, zh]) => [normalize(en), zh]));
@@ -1067,42 +920,10 @@
     return null;
   }
 
-  function translateErrorTemplate(text) {
-    const fieldPattern = '(first name|last name|full name|name|recipient name|recipient email address|sender name|sender email address|email address|phone number|street address|city|state|ZIP code|postal code|card number|security code|expiration date|verification code|gift card PIN)';
-    const required = text.match(new RegExp('^' + fieldPattern + ' is required\\.?$', 'i'));
-    if (required) return knownLabel(required[1]) + '为必填项。';
-    const invalid = text.match(new RegExp('^Invalid ' + fieldPattern + '\\.?$', 'i'));
-    if (invalid) return knownLabel(invalid[1]) + '无效。';
-    const rules = [
-      [/^Please enter (?:an amount|a value) (?:between|from) (\$[\d,]+(?:\.\d+)?) (?:and|to) (\$[\d,]+(?:\.\d+)?)\.?$/i, '请输入 $1 至 $2 之间的金额。'],
-      [/^The minimum amount is (\$[\d,]+(?:\.\d+)?)\.?$/i, '最低金额为 $1。'],
-      [/^The maximum amount is (\$[\d,]+(?:\.\d+)?)\.?$/i, '最高金额为 $1。'],
-      [/^Please enter at least (\d+) characters\.?$/i, '请至少输入 $1 个字符。'],
-      [/^Please enter no more than (\d+) characters\.?$/i, '请输入不超过 $1 个字符。'],
-      [/^You can enter up to (\d+) characters\.?$/i, '最多可输入 $1 个字符。'],
-      [/^Your message must be (\d+) characters or fewer\.?$/i, '你的祝福语不得超过 $1 个字符。'],
-      [/^Please enter a (\d+)[- ]digit verification code\.?$/i, '请输入 $1 位验证码。'],
-      [/^Please try again in (\d+) (seconds?|minutes?)\.?$/i,
-        (_, count, unit) => '请在 ' + count + (unit.toLowerCase().startsWith('second') ? ' 秒' : ' 分钟') + '后重试。'],
-      [/^Error code:\s*([A-Z0-9_-]+)\.?$/i, '错误代码：$1'],
-      [/^(Error|Warning|Notice):\s+(.+)$/i,
-        (_, label, message) => knownLabel(label) + '：' + knownLabel(message)],
-    ];
-    for (const [pattern, replacement] of rules) {
-      if (pattern.test(text)) return text.replace(pattern, replacement);
-    }
-    return null;
-  }
-
   function translate(text) {
-    // 弹窗可能将多条错误放在不同行，保留换行并分别查表。
-    if (/[\r\n]/.test(text)) {
-      const multiline = text.split(/(\r\n|\r|\n)/).map(part => /[\r\n]/.test(part) ? part : translate(part)).join('');
-      if (multiline !== text) return multiline;
-    }
     const key = normalize(text);
     if (!key) return text;
-    let result = EXACT.get(key) || CASE_INSENSITIVE.get(key.toLowerCase()) || translatePaymentOrderTemplate(key) || translateErrorTemplate(key);
+    let result = EXACT.get(key) || CASE_INSENSITIVE.get(key.toLowerCase()) || translatePaymentOrderTemplate(key);
     if (!result) {
       // 同一标签可能以冒号、句点或问号结尾，仅在已知词条上补齐标点。
       const punctuation = key.match(/^(.*?)([:.?])$/);
@@ -1361,21 +1182,6 @@
     });
   }
 
-  function installDialogTranslators() {
-    for (const name of ['alert', 'confirm', 'prompt']) {
-      const original = window[name];
-      if (typeof original !== 'function') continue;
-      try {
-        window[name] = function (...args) {
-          if (enabled && args.length && typeof args[0] === 'string') args[0] = translate(args[0]);
-          return Reflect.apply(original, window, args);
-        };
-      } catch (_) {
-        // 个别管理器或网页可能禁止改写，继续保留网页内弹窗的 DOM 翻译。
-      }
-    }
-  }
-
   function boot() {
     if (booted) return;
     booted = true;
@@ -1392,7 +1198,6 @@
     }, 150);
   }
 
-  installDialogTranslators();
   if (document.documentElement) boot();
   else document.addEventListener('DOMContentLoaded', boot, { once: true });
   window.addEventListener('load', () => {

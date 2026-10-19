@@ -16,7 +16,7 @@ for (const [english, chinese] of DICT) {
   if (folded.has(key)) assert.equal(folded.get(key), chinese, `Case conflict: ${english}`);
   folded.set(key, chinese);
 }
-const cases = ['payment-order-cases.json', 'error-dialog-cases.json'].flatMap(file => JSON.parse(fs.readFileSync(path.join(__dirname, file), 'utf8')));
+const cases = JSON.parse(fs.readFileSync(path.join(__dirname, 'payment-order-cases.json'), 'utf8'));
 for (const [english, chinese] of cases) {
   assert.equal(translate(english), chinese, english);
   assert.equal(translate(chinese), chinese, `Repeated template: ${english}`);
@@ -25,4 +25,4 @@ for (const [english, chinese] of cases) {
 for (const value of ['May', 'June', 'Buyer+Gift@Example.com', '$1,234.50', 'WTEST-123', '•••• 5678', '12/2028', '123 Example Street']) {
   assert.equal(translate(value), value, `Preserved value: ${value}`);
 }
-console.log(`PASS: ${DICT.length} dictionary entries, ${cases.length} message templates, stability and data preservation`);
+console.log(`PASS: ${DICT.length} dictionary entries, ${cases.length} payment/order templates, stability and data preservation`);

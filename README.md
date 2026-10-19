@@ -10,7 +10,7 @@
 
 ## Apple 美国商店购物及结账中文翻译
 
-脚本：[apple-giftcard-zh.user.js](apple-giftcard-zh.user.js)，当前版本 **1.2.4**。
+脚本：[apple-giftcard-zh.user.js](apple-giftcard-zh.user.js)，当前版本 **1.2.5**。
 
 ## Safari + Stay 安装或更新
 
@@ -62,11 +62,8 @@ https://raw.githubusercontent.com/luestr/userscripts/main/i18n/decrypt.34306.lol
 
 参考 Apple 的公开 [付款说明](https://www.apple.com/shop/help/payments) 和 [订单状态说明](https://www.apple.com/shop/help/viewing_changing_orders)。部分词条是为可能出现的界面变体补充的候选项。
 
-## 1.2.4 错误与弹窗补充
+## 1.2.5 紧急回退
 
-- 补充校验、金额／长度限制、会话超时、网络故障、配送变化、支付失败和取消操作等候选提示。
-- 支持动态错误代码、重试间隔、验证码位数、必填字段与多行消息，保留编号、金额和换行。
-- 额外处理网页调用的 `alert` / `confirm` / `prompt`：仅翻译字符串消息，保留参数数量、提示框默认值、用户输入、确认／取消返回值及原函数异常。切回英文时停止翻译消息。
-- 网页内对话框继续通过 DOM 翻译；不自动点击或关闭弹窗，不修改表单校验规则。
-- JS 原生弹窗消息翻译要求脚本管理器允许脚本访问网页的函数环境。若管理器隔离该环境或页面重写函数，可能仍保留英文。Safari 的弹窗按钮、权限提示、默认表单校验气泡、原生付款及银行验证窗口由浏览器／系统控制。
-- 本地 136 项浏览器检查包含模拟原生对话框；测试不会打开真实原生确认框，不执行真实订单操作。
+收到 Safari + Stay 中 v1.2.4 整体失效的反馈后，恢复 v1.2.3 的脚本逻辑，仅提升版本号以便正常更新。撤回 v1.2.4 的原生弹窗函数接管、多行翻译和新错误模板。保留此前购物袋、配送、付款和订单页面的翻译。
+
+具体根因仍待用户环境确认；本地模拟对话框测试不能代表 Safari + Stay 兼容性。原生 alert / confirm / prompt 不再由脚本改写。
