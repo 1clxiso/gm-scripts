@@ -1,0 +1,146 @@
+[
+  [
+    "Please correct the errors below.",
+    "请更正下方错误。"
+  ],
+  [
+    "This is a required field.",
+    "此项为必填。"
+  ],
+  [
+    "First Name is required.",
+    "名字为必填项。"
+  ],
+  [
+    "Recipient Email Address is required.",
+    "收件人电子邮箱为必填项。"
+  ],
+  [
+    "Invalid ZIP Code.",
+    "邮政编码无效。"
+  ],
+  [
+    "Please enter the recipient’s email address.",
+    "请输入收件人的电子邮箱地址。"
+  ],
+  [
+    "The email addresses do not match.",
+    "两次填写的电子邮箱地址不一致。"
+  ],
+  [
+    "Please enter an amount from $10 to $2,000.",
+    "请输入 $10 至 $2,000 之间的金额。"
+  ],
+  [
+    "The minimum amount is $10.00.",
+    "最低金额为 $10.00。"
+  ],
+  [
+    "The maximum amount is $2,000.00.",
+    "最高金额为 $2,000.00。"
+  ],
+  [
+    "Your message must be 200 characters or fewer.",
+    "你的祝福语不得超过 200 个字符。"
+  ],
+  [
+    "Please enter at least 2 characters.",
+    "请至少输入 2 个字符。"
+  ],
+  [
+    "Please enter no more than 100 characters.",
+    "请输入不超过 100 个字符。"
+  ],
+  [
+    "Please enter a 6-digit verification code.",
+    "请输入 6 位验证码。"
+  ],
+  [
+    "Please try again in 30 seconds.",
+    "请在 30 秒后重试。"
+  ],
+  [
+    "Please try again in 2 minutes.",
+    "请在 2 分钟后重试。"
+  ],
+  [
+    "Error code: TEST-403.",
+    "错误代码：TEST-403"
+  ],
+  [
+    "Error: Something went wrong. Please try again.",
+    "错误：出现错误，请重试。"
+  ],
+  [
+    "Network connection lost.",
+    "网络连接已断开。"
+  ],
+  [
+    "For your security, your session has timed out.",
+    "为了保护你的安全，会话已超时。"
+  ],
+  [
+    "This item is no longer available.",
+    "此商品已无法购买。"
+  ],
+  [
+    "Your delivery options have changed.",
+    "你的配送选项已更改。"
+  ],
+  [
+    "We couldn’t verify your address.",
+    "我们无法核实你的地址。"
+  ],
+  [
+    "Your payment authorization failed.",
+    "你的付款授权失败。"
+  ],
+  [
+    "Your bank declined this payment.",
+    "你的银行拒绝了此次付款。"
+  ],
+  [
+    "Verification was canceled.",
+    "验证已取消。"
+  ],
+  [
+    "Too many attempts. Please try again later.",
+    "尝试次数过多，请稍后重试。"
+  ],
+  [
+    "Your order has not been placed.",
+    "你的订单尚未提交。"
+  ],
+  [
+    "Do not submit your order again.",
+    "请勿重复提交订单。"
+  ],
+  [
+    "Are you sure you want to cancel your order?",
+    "确定要取消你的订单吗？"
+  ],
+  [
+    "No, keep my order",
+    "不，保留我的订单"
+  ],
+  [
+    "Yes, cancel my order",
+    "是，取消我的订单"
+  ],
+  [
+    "Invalid email address\nThis field is required.",
+    "电子邮箱地址无效\n此项为必填。"
+  ],
+  [
+    "Invalid email address\r\nUnknown problem TEST-42\r\nPlease try again.",
+    "电子邮箱地址无效\r\nUnknown problem TEST-42\r\n请重试。"
+  ],
+  [
+    "Close dialog",
+    "关闭对话框"
+  ],
+  [
+    "Unknown server response TEST-99",
+    "Unknown server response TEST-99"
+  ]
+]

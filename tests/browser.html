@@ -1,4 +1,14 @@
-<!doctype html><html><head><meta charset="utf-8"><title>Buy Apple Gift Cards - Apple</title><script src="/apple-giftcard-zh.user.js"></script></head><body>
+<!doctype html><html><head><meta charset="utf-8"><title>Buy Apple Gift Cards - Apple</title><script>
+window.__dialogTest = { calls: [], confirmResult: false, promptResult: null, failure: null };
+for (const name of ['alert', 'confirm', 'prompt']) {
+  window[name] = function (...args) {
+    const test = window.__dialogTest;
+    test.calls.push({ name, args, receiver: this });
+    if (test.failure) throw test.failure;
+    return name === 'confirm' ? test.confirmResult : name === 'prompt' ? test.promptResult : undefined;
+  };
+}
+</script><script src="/apple-giftcard-zh.user.js"></script></head><body>
 <h1 id="heading">Buy Apple Gift Card</h1>
 <label id="label">Recipient Name</label><input id="input" placeholder="Recipient Name" aria-label="Recipient Name" value="Select">
 <p id="money">$100</p><textarea id="textarea">Other Amount</textarea>
@@ -84,6 +94,50 @@
   document.body.appendChild(paymentSamples);
   await tick();
   paymentCases.forEach(([original, expected], index) => check(paymentNodes[index].textContent === expected, '付款/订单模板：' + original));
+  const errorCases = await fetch('/tests/error-dialog-cases.json').then(response => response.json());
+  const errorDialog = document.createElement('dialog');
+  errorDialog.open = true;
+  errorDialog.setAttribute('aria-label', 'Error Message');
+  const errorNodes = errorCases.map(([original]) => {
+    const paragraph = document.createElement('p');
+    paragraph.setAttribute('role', 'alert');
+    paragraph.textContent = original;
+    errorDialog.appendChild(paragraph);
+    return paragraph;
+  });
+  const dismiss = document.createElement('button');
+  dismiss.type = 'button'; dismiss.textContent = 'Dismiss';
+  dismiss.setAttribute('aria-label', 'Close dialog');
+  let dismissCalls = 0;
+  dismiss.addEventListener('click', () => { dismissCalls++; });
+  errorDialog.appendChild(dismiss);
+  document.body.appendChild(errorDialog);
+  await tick();
+  errorCases.forEach(([original, expected], index) => check(errorNodes[index].textContent === expected, '错误/弹窗模板：' + original));
+  check(errorDialog.getAttribute('aria-label') === '错误提示' && dismiss.getAttribute('aria-label') === '关闭对话框', '网页弹窗标题与关闭按钮无障碍提示翻译');
+  check(dismissCalls === 0 && errorDialog.open, '翻译未自动关闭或确认网页弹窗');
+  dismiss.click();
+  check(dismissCalls === 1, '网页弹窗原有按钮事件保持有效');
+  const dialogs = window.__dialogTest;
+  const last = () => dialogs.calls[dialogs.calls.length - 1];
+  const alertResult = window.alert('Invalid email address\nThis field is required.');
+  check(alertResult === undefined && last().args[0] === '电子邮箱地址无效\n此项为必填。', 'alert 消息换行翻译及返回值保留');
+  check(last().receiver === window, '原生对话框调用保持窗口接收者');
+  const rejected = window.confirm('Are you sure you want to cancel your order?');
+  check(rejected === false && last().args[0] === '确定要取消你的订单吗？', 'confirm 取消结果 false 保留');
+  dialogs.confirmResult = true;
+  check(window.confirm('Are you sure?') === true, 'confirm 确认结果 true 保留');
+  check(window.prompt('Enter verification code', 'May') === null && last().args[1] === 'May' && last().args[0] === '输入验证码', 'prompt 取消结果 null 与默认值保留');
+  dialogs.promptResult = 'Email';
+  check(window.prompt('Enter verification code', 'TEST-INPUT') === 'Email' && last().args[1] === 'TEST-INPUT', 'prompt 用户输入返回值不翻译');
+  window.alert(); check(last().args.length === 0, '无参数原生调用保持零参数');
+  window.alert(123); check(last().args[0] === 123, '非字符串消息交还原函数处理');
+  const nativeFailure = new Error('TEST-NATIVE-ERROR');
+  dialogs.failure = nativeFailure;
+  let caught = null;
+  try { window.confirm('Are you sure?'); } catch (error) { caught = error; }
+  dialogs.failure = null;
+  check(caught === nativeFailure, '原生对话框异常原样传递');
   const frame = document.createElement('iframe');
   frame.srcdoc = '<!doctype html><script src="/apple-giftcard-zh.user.js"><' + '/script><h2>Check out with your Apple Account</h2><input placeholder="Email or Phone Number">';
   document.body.append(frame);
@@ -92,6 +146,9 @@
   check(frame.contentDocument.querySelector('h2').textContent === '使用 Apple 账户结账' && !frame.contentDocument.querySelector('[data-apple-giftcard-zh-ui]'), '登录内嵌页翻译且不重复显示按钮');
   button.click();
   await tick();
+  check(errorNodes.every((node, index) => node.textContent === errorCases[index][0]), '切回英文恢复网页错误弹窗原文');
+  window.alert('Something went wrong. Please try again.');
+  check(last().args[0] === 'Something went wrong. Please try again.', '英文模式关闭原生消息翻译');
   check(paymentNodes.every((node, index) => node.textContent === paymentCases[index][0]), '切回英文逐项恢复付款与订单模板原文');
   check(pay.lang === 'en-US' && component.getAttribute('locale') === 'en-US', '切回英文恢复 Apple Pay 原始语言');
   check(document.querySelector('#explicit option').textContent === 'Mail' && document.querySelector('#explicit').value === 'mail', '切回英文恢复选项显示并保留值');
@@ -101,6 +158,9 @@
   document.querySelector('#input').value = '用户填写内容';
   button.click();
   await tick();
+  check(errorNodes.every((node, index) => node.textContent === errorCases[index][1]), '再次切回中文恢复网页弹窗翻译');
+  window.alert('Please try again.');
+  check(last().args[0] === '请重试。', '再次切回中文恢复原生消息翻译');
   check(paymentNodes.every((node, index) => node.textContent === paymentCases[index][1]), '再次切回中文恢复付款与订单模板翻译');
   check(p.textContent === '填写配送信息。', '再次切回中文');
   check(document.querySelector('#input').value === '用户填写内容', '语言切换保留用户输入');

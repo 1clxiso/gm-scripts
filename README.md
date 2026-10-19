@@ -10,7 +10,7 @@
 
 ## Apple 美国商店购物及结账中文翻译
 
-脚本：[apple-giftcard-zh.user.js](apple-giftcard-zh.user.js)，当前版本 **1.2.3**。
+脚本：[apple-giftcard-zh.user.js](apple-giftcard-zh.user.js)，当前版本 **1.2.4**。
 
 ## Safari + Stay 安装或更新
 
@@ -61,3 +61,12 @@ https://raw.githubusercontent.com/luestr/userscripts/main/i18n/decrypt.34306.lol
 - 本轮未使用真实银行卡、未执行付款、未生成真实订单。候选文案和本地场景用于补充覆盖，不代表真实付款页面已经逐项验证。
 
 参考 Apple 的公开 [付款说明](https://www.apple.com/shop/help/payments) 和 [订单状态说明](https://www.apple.com/shop/help/viewing_changing_orders)。部分词条是为可能出现的界面变体补充的候选项。
+
+## 1.2.4 错误与弹窗补充
+
+- 补充校验、金额／长度限制、会话超时、网络故障、配送变化、支付失败和取消操作等候选提示。
+- 支持动态错误代码、重试间隔、验证码位数、必填字段与多行消息，保留编号、金额和换行。
+- 额外处理网页调用的 `alert` / `confirm` / `prompt`：仅翻译字符串消息，保留参数数量、提示框默认值、用户输入、确认／取消返回值及原函数异常。切回英文时停止翻译消息。
+- 网页内对话框继续通过 DOM 翻译；不自动点击或关闭弹窗，不修改表单校验规则。
+- JS 原生弹窗消息翻译要求脚本管理器允许脚本访问网页的函数环境。若管理器隔离该环境或页面重写函数，可能仍保留英文。Safari 的弹窗按钮、权限提示、默认表单校验气泡、原生付款及银行验证窗口由浏览器／系统控制。
+- 本地 136 项浏览器检查包含模拟原生对话框；测试不会打开真实原生确认框，不执行真实订单操作。
