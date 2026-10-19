@@ -1,0 +1,170 @@
+[
+  [
+    "How would you like to pay for your order?",
+    "你想如何支付订单？"
+  ],
+  [
+    "Cardholder’s Name",
+    "持卡人姓名"
+  ],
+  [
+    "Expiration date (MM/YYYY)",
+    "有效期（月／年）"
+  ],
+  [
+    "Billing ZIP Code",
+    "账单邮政编码"
+  ],
+  [
+    "Save this card for future purchases",
+    "保存此卡以供下次购买使用"
+  ],
+  [
+    "You cannot pay for an Apple Gift Card with an Apple Gift Card or Apple Account Balance.",
+    "不能使用 Apple 礼品卡或 Apple 账户余额购买 Apple 礼品卡。"
+  ],
+  [
+    "There is not enough balance on this gift card.",
+    "此礼品卡余额不足。"
+  ],
+  [
+    "Amount Due: $1,234.50",
+    "应付金额：$1,234.50"
+  ],
+  [
+    "Remaining Balance: $0.00",
+    "剩余余额：$0.00"
+  ],
+  [
+    "Visa ending in 1234",
+    "Visa 尾号 1234"
+  ],
+  [
+    "Card ending with •••• 5678",
+    "银行卡 尾号 •••• 5678"
+  ],
+  [
+    "Expires 10/2028",
+    "有效期 10/2028"
+  ],
+  [
+    "Paid with: Visa ending in 1234",
+    "付款方式：Visa 尾号 1234"
+  ],
+  [
+    "Payment Status: Awaiting Authorization",
+    "付款状态：等待授权"
+  ],
+  [
+    "Payment Status: Payment Authorized",
+    "付款状态：付款已授权"
+  ],
+  [
+    "Payment Pending",
+    "等待付款"
+  ],
+  [
+    "Payment verification failed.",
+    "付款验证失败。"
+  ],
+  [
+    "Please contact your card issuer.",
+    "请联系你的发卡机构。"
+  ],
+  [
+    "Your payment was declined.",
+    "你的付款被拒绝。"
+  ],
+  [
+    "Apple Pay payment was canceled.",
+    "Apple Pay 付款已取消。"
+  ],
+  [
+    "We’re processing your payment.",
+    "我们正在处理你的付款。"
+  ],
+  [
+    "Your order number is WTEST-123.",
+    "你的订单编号为 WTEST-123。"
+  ],
+  [
+    "Web Order Number WTEST-456",
+    "网上订单编号：WTEST-456"
+  ],
+  [
+    "Confirmation Number: CTEST-789",
+    "确认编号：CTEST-789"
+  ],
+  [
+    "We’ll send an order confirmation to Buyer+gift@example.com.",
+    "我们将向 Buyer+gift@example.com 发送订单确认邮件。"
+  ],
+  [
+    "We've sent a confirmation email to Buyer@example.com.",
+    "我们已向 Buyer@example.com 发送订单确认邮件。"
+  ],
+  [
+    "An order confirmation was sent to Buyer@example.com.",
+    "订单确认邮件已发送至 Buyer@example.com。"
+  ],
+  [
+    "Your receipt was sent to Buyer@example.com.",
+    "你的收据已发送至 Buyer@example.com。"
+  ],
+  [
+    "Your gift card will be sent to Recipient@example.com.",
+    "你的礼品卡将发送至 Recipient@example.com。"
+  ],
+  [
+    "Your gift card has been sent to Recipient@example.com.",
+    "你的礼品卡已发送至 Recipient@example.com。"
+  ],
+  [
+    "Order placed on October 19, 2026",
+    "下单日期：10 月 19, 2026"
+  ],
+  [
+    "Order Date: October 19, 2026",
+    "订单日期：10 月 19, 2026"
+  ],
+  [
+    "Estimated delivery: Wednesday, October 21",
+    "预计送达：周三, 10 月 21"
+  ],
+  [
+    "Order Status: Processing",
+    "订单状态：处理中"
+  ],
+  [
+    "Order Acknowledgment",
+    "订单收悉通知"
+  ],
+  [
+    "Thank you for your purchase.",
+    "感谢你的购买。"
+  ],
+  [
+    "Check your email for your order confirmation.",
+    "请查看电子邮箱中的订单确认邮件。"
+  ],
+  [
+    "Tracking Number: TRACK-TEST-123",
+    "物流跟踪号码：TRACK-TEST-123"
+  ],
+  [
+    "View or Print Invoice",
+    "查看或打印发票"
+  ],
+  [
+    "Action Required",
+    "需要采取操作"
+  ],
+  [
+    "Update Payment Method",
+    "更新付款方式"
+  ],
+  [
+    "Refund Status: Partially Refunded",
+    "退款状态：已部分退款"
+  ]
+]

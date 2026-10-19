@@ -72,6 +72,18 @@
   check(document.querySelector('#bag-count').getAttribute('aria-label') === '购物袋，1 件商品', '购物袋数量无障碍标签翻译');
   check(document.querySelector('#footer-test').textContent === 'Apple 管理层', '补齐页脚链接');
   check(document.querySelector('#auth-hint').getAttribute('aria-label') === '忘记密码？（在新窗口中打开）', '登录框新窗口无障碍提示翻译');
+  const paymentCases = await fetch('/tests/payment-order-cases.json').then(response => response.json());
+  const paymentSamples = document.createElement('section');
+  paymentSamples.id = 'payment-order-samples';
+  const paymentNodes = paymentCases.map(([original]) => {
+    const element = document.createElement('p');
+    element.textContent = original;
+    paymentSamples.appendChild(element);
+    return element;
+  });
+  document.body.appendChild(paymentSamples);
+  await tick();
+  paymentCases.forEach(([original, expected], index) => check(paymentNodes[index].textContent === expected, '付款/订单模板：' + original));
   const frame = document.createElement('iframe');
   frame.srcdoc = '<!doctype html><script src="/apple-giftcard-zh.user.js"><' + '/script><h2>Check out with your Apple Account</h2><input placeholder="Email or Phone Number">';
   document.body.append(frame);
@@ -80,6 +92,7 @@
   check(frame.contentDocument.querySelector('h2').textContent === '使用 Apple 账户结账' && !frame.contentDocument.querySelector('[data-apple-giftcard-zh-ui]'), '登录内嵌页翻译且不重复显示按钮');
   button.click();
   await tick();
+  check(paymentNodes.every((node, index) => node.textContent === paymentCases[index][0]), '切回英文逐项恢复付款与订单模板原文');
   check(pay.lang === 'en-US' && component.getAttribute('locale') === 'en-US', '切回英文恢复 Apple Pay 原始语言');
   check(document.querySelector('#explicit option').textContent === 'Mail' && document.querySelector('#explicit').value === 'mail', '切回英文恢复选项显示并保留值');
   check(p.textContent === 'Enter your delivery details.', '恢复动态节点英文原文');
@@ -88,6 +101,7 @@
   document.querySelector('#input').value = '用户填写内容';
   button.click();
   await tick();
+  check(paymentNodes.every((node, index) => node.textContent === paymentCases[index][1]), '再次切回中文恢复付款与订单模板翻译');
   check(p.textContent === '填写配送信息。', '再次切回中文');
   check(document.querySelector('#input').value === '用户填写内容', '语言切换保留用户输入');
   document.querySelector('#results').textContent = results.join('\n') + '\n' + (results.every(x => x.startsWith('PASS')) ? 'ALL ' + results.length + ' CHECKS PASSED' : 'CHECK FAILED');

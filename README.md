@@ -10,7 +10,7 @@
 
 ## Apple 美国商店购物及结账中文翻译
 
-脚本：[apple-giftcard-zh.user.js](apple-giftcard-zh.user.js)，当前版本 **1.2.2**。
+脚本：[apple-giftcard-zh.user.js](apple-giftcard-zh.user.js)，当前版本 **1.2.3**。
 
 ## Safari + Stay 安装或更新
 
@@ -52,3 +52,12 @@ https://raw.githubusercontent.com/luestr/userscripts/main/i18n/decrypt.34306.lol
 - 支持带标点的标签、完整星期／月份、工作日配送期限和更多无障碍提示。
 - 月份仅在配送日期与显式选项中翻译，避免把联系人 May / June 等姓名译为月份。
 - 可运行的本地回归页面见 [tests/README.md](tests/README.md)，覆盖 40 项行为检查。
+
+## 1.2.3 付款与订单确认补充
+
+- 补充持卡人、到期日、安全码、账单地址、余额、付款授权／失败、订单核对、电子礼品卡发送、发票与退款状态等候选文案。
+- 新增金额、卡尾号、订单编号、确认邮件和收据邮箱等动态模板。保留其动态数据及大小写，不将等待授权或处理中误译为付款成功。
+- 增加 42 条付款／订单模板案例，浏览器回归检查扩展至 84 项，并提供无依赖的 Node 检查。
+- 本轮未使用真实银行卡、未执行付款、未生成真实订单。候选文案和本地场景用于补充覆盖，不代表真实付款页面已经逐项验证。
+
+参考 Apple 的公开 [付款说明](https://www.apple.com/shop/help/payments) 和 [订单状态说明](https://www.apple.com/shop/help/viewing_changing_orders)。部分词条是为可能出现的界面变体补充的候选项。
