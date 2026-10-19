@@ -133,7 +133,7 @@
   ],
   [
     "Invalid email address\r\nUnknown problem TEST-42\r\nPlease try again.",
-    "电子邮箱地址无效\r\nUnknown problem TEST-42\r\n请重试。"
+    "Invalid email address\r\nUnknown problem TEST-42\r\nPlease try again."
   ],
   [
     "Close dialog",
