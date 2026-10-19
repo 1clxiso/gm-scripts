@@ -7,7 +7,7 @@
 // @supportURL   https://github.com/1clxiso/gm-scripts/issues
 // @updateURL    https://raw.githubusercontent.com/1clxiso/gm-scripts/main/apple-giftcard-zh.user.js
 // @downloadURL  https://raw.githubusercontent.com/1clxiso/gm-scripts/main/apple-giftcard-zh.user.js
-// @version      1.2.1
+// @version      1.2.2
 // @description  翻译 Apple 美国商店、礼品卡、购物袋、登录、配送、付款及订单页面，支持动态内容与中英文切换。
 // @match        https://www.apple.com/shop/*
 // @match        https://www.apple.com/us/shop/*
@@ -205,7 +205,7 @@
     ["Continue to Delivery", "继续选择配送"],
     ["Continue to Billing", "继续填写账单信息"],
     ["Continue to Payment", "继续选择付款方式"],
-    ["Continue to Review", "继续查看订单"],
+    ["Continue to Review", "继续核对订单"],
     ["Continue to Order Review", "继续查看订单"],
     ["Pickup", "到店取货"],
     ["Pick up", "到店取货"],
@@ -437,18 +437,6 @@
     ["Environment", "环境"],
     ["Privacy", "隐私"],
     ["Newsroom", "新闻发布室"],
-    ["January", "1 月"],
-    ["February", "2 月"],
-    ["March", "3 月"],
-    ["April", "4 月"],
-    ["May", "5 月"],
-    ["June", "6 月"],
-    ["July", "7 月"],
-    ["August", "8 月"],
-    ["September", "9 月"],
-    ["October", "10 月"],
-    ["November", "11 月"],
-    ["December", "12 月"],
     ["Sign In — Secure Checkout - Apple", "登录 — 安全结账 - Apple"],
     ["Sign in for faster checkout.", "登录，结账更快捷。"],
     ["Check out with your Apple Account", "使用 Apple 账户结账"],
@@ -551,7 +539,106 @@
     ["FAQ for Payment", "付款常见问题"],
     ["Order now.", "立即订购。"],
     ["Pick up in-store:", "到店取货："],
+    ["Undo", "撤销"],
+    ["The gift card for everything Apple", "一张礼品卡，畅享 Apple 的精彩"],
+    ["Enter your message", "输入你的祝福语"],
+    ["Personal Message", "专属祝福语"],
+    ["Personalized Message", "专属祝福语"],
+    ["Gift card message", "礼品卡祝福语"],
+    ["Add a personalized message", "添加专属祝福语"],
+    ["Edit gift message", "编辑礼品祝福语"],
+    ["Characters remaining", "剩余可输入字符数"],
+    ["Send another gift card", "再送一张礼品卡"],
+    ["Add another gift card", "再添加一张礼品卡"],
+    ["Apple Gift Card by Mail removed from your bag. Any associated offers have also been removed.", "邮寄 Apple 礼品卡已从购物袋移除，相关优惠也已移除。"],
+    ["Apple Gift Card by Email removed from your bag. Any associated offers have also been removed.", "电子 Apple 礼品卡已从购物袋移除，相关优惠也已移除。"],
+    ["Estimated Delivery", "预计送达"],
+    ["Business Days", "工作日"],
+    ["Business Day", "工作日"],
+    ["Edit Zip code", "编辑邮政编码"],
+    ["Order by", "请于以下时间前订购"],
+    ["Expiration Month", "到期月份"],
+    ["Expiration Year", "到期年份"],
+    ["MM", "月"],
+    ["YY", "年"],
+    ["Security code (CVV)", "安全码（CVV）"],
+    ["Security code (CVV/CVC)", "安全码（CVV／CVC）"],
+    ["Use my shipping address", "使用我的收货地址"],
+    ["Use shipping address as billing address", "使用收货地址作为账单地址"],
+    ["Use a different address", "使用其他地址"],
+    ["Add a payment method", "添加付款方式"],
+    ["Remove payment method", "移除付款方式"],
+    ["Please select a state.", "请选择州。"],
+    ["Please select your state.", "请选择你的州。"],
+    ["Please enter your street address.", "请输入你的街道地址。"],
+    ["Please enter your city.", "请输入你的城市。"],
+    ["Please enter your email address.", "请输入你的电子邮箱地址。"],
+    ["Please enter your phone number.", "请输入你的电话号码。"],
+    ["Please enter your card number.", "请输入你的卡号。"],
+    ["Please enter a valid expiration date.", "请输入有效的到期日期。"],
+    ["Your card has expired.", "你的银行卡已过期。"],
+    ["Your card was declined.", "你的银行卡付款被拒绝。"],
+    ["Check your payment details and try again.", "请检查付款信息后重试。"],
+    ["Payment could not be authorized.", "付款未能获得授权。"],
+    ["Payment Unsuccessful", "付款未成功"],
+    ["Payment Failed", "付款失败"],
+    ["Payment Successful", "付款成功"],
+    ["Your order is confirmed.", "你的订单已确认。"],
+    ["We’ve received your order.", "我们已收到你的订单。"],
+    ["We've received your order.", "我们已收到你的订单。"],
+    ["We’ll send you an email confirmation.", "我们会向你发送确认邮件。"],
+    ["View your order", "查看你的订单"],
+    ["Check Order Status", "查看订单状态"],
+    ["Order Date", "订单日期"],
+    ["Estimated Arrival", "预计到达"],
+    ["Awaiting Payment", "等待付款"],
+    ["Check your order status", "查看你的订单状态"],
+    ["Verify your identity", "验证你的身份"],
+    ["Enter your password", "输入你的密码"],
+    ["Enter your verification code", "输入你的验证码"],
+    ["Enter the verification code sent to your trusted devices.", "输入发送到受信任设备的验证码。"],
+    ["Enter the verification code sent to your phone.", "输入发送到你手机上的验证码。"],
+    ["Incorrect verification code.", "验证码不正确。"],
+    ["This verification code has expired.", "此验证码已过期。"],
+    ["Send a new code", "发送新验证码"],
+    ["Text me", "向我发送短信"],
+    ["Call me", "给我打电话"],
+    ["More Options", "更多选项"],
+    ["Not Now", "暂不"],
+    ["Your Apple Account or password was incorrect.", "你的 Apple 账户或密码不正确。"],
+    ["Your Apple ID or password was incorrect.", "你的 Apple ID 或密码不正确。"],
+    ["Continue with Password", "使用密码继续"],
+    ["Sign in with a different Apple Account", "使用其他 Apple 账户登录"],
+    ["Use a different Apple Account", "使用其他 Apple 账户"],
+    ["Forgot password? Opens in a new window.", "忘记密码？在新窗口中打开。"],
+    ["Opens in a new window.", "在新窗口中打开。"],
+    ["Legal - iTunes Gift Cards and Codes - Apple", "法律信息 - iTunes 礼品卡和兑换码 - Apple"],
+    ["Apple Gift Card, removed from packaging, two white square cards, rounded corners, design on transparent sticker, Apple logo containing multicolor geometric design, Apple logo containing multicolor splashes and pixels", "拆开包装的 Apple 礼品卡：两张白色圆角方卡，透明贴纸上分别印有彩色几何图案与彩色飞溅像素图案的 Apple 标志"],
+    ["TV & Home", "电视与家居"],
+    ["Apple Store App", "Apple Store App"],
+    ["Carrier Deals at Apple", "Apple 运营商优惠"],
+    ["Apple and Business", "Apple 与商务"],
+    ["Shop for Business", "商务选购"],
+    ["Apple and Education", "Apple 与教育"],
+    ["Shop for K-12", "中小学教育选购"],
+    ["Shop for College", "高校教育选购"],
+    ["Apple in Healthcare", "Apple 与医疗健康"],
+    ["Health on Apple Watch", "Apple Watch 健康功能"],
+    ["Health Records on iPhone", "iPhone 健康记录"],
+    ["Shop for Government", "政府采购"],
+    ["Shop for Veterans and Military", "退伍军人与军人选购"],
+    ["Inclusion and Diversity", "包容性与多样性"],
+    ["Racial Equity and Justice", "种族平等与公正"],
+    ["Supply Chain", "供应链"],
+    ["Apple Leadership", "Apple 管理层"],
+    ["Career Opportunities", "工作机会"],
+    ["Investors", "投资者关系"],
+    ["Ethics & Compliance", "道德与合规"],
+    ["Events", "活动"],
+    ["Apple Camp", "Apple 夏令营"],
+    ["Order Options", "订单选项"],
   ];
+  const MONTH_LABELS = new Map([["January", "1 月"], ["February", "2 月"], ["March", "3 月"], ["April", "4 月"], ["May", "5 月"], ["June", "6 月"], ["July", "7 月"], ["August", "8 月"], ["September", "9 月"], ["October", "10 月"], ["November", "11 月"], ["December", "12 月"]]);
   const EXACT = new Map(DICT.map(([en, zh]) => [normalize(en), zh]));
 
   const CASE_INSENSITIVE = new Map(DICT.map(([en, zh]) => [normalize(en).toLowerCase(), zh]));
@@ -569,6 +656,12 @@
       ['Thursday', '周四'], ['Friday', '周五'], ['Saturday', '周六'], ['Sunday', '周日'],
       ['Mon', '周一'], ['Tue', '周二'], ['Wed', '周三'], ['Thu', '周四'],
       ['Fri', '周五'], ['Sat', '周六'], ['Sun', '周日'],
+      ['January', '1 月'], ['February', '2 月'], ['March', '3 月'], ['April', '4 月'],
+      ['June', '6 月'], ['July', '7 月'], ['August', '8 月'], ['September', '9 月'],
+      ['October', '10 月'], ['November', '11 月'], ['December', '12 月'],
+      ['business days', '个工作日'], ['business day', '个工作日'],
+      ['days', '天'], ['day', '天'], ['weeks', '周'], ['week', '周'],
+      ['In Stock', '现货'], ['Free', '免费'],
       ['Jan', '1 月'], ['Feb', '2 月'], ['Mar', '3 月'], ['Apr', '4 月'],
       ['May', '5 月'], ['Jun', '6 月'], ['Jul', '7 月'], ['Aug', '8 月'],
       ['Sep', '9 月'], ['Oct', '10 月'], ['Nov', '11 月'], ['Dec', '12 月'],
@@ -577,11 +670,23 @@
     return text;
   }
 
+  function knownLabel(text) {
+    const key = normalize(text);
+    return EXACT.get(key) || CASE_INSENSITIVE.get(key.toLowerCase()) || text;
+  }
+
   function translate(text) {
     const key = normalize(text);
     if (!key) return text;
     let result = EXACT.get(key) || CASE_INSENSITIVE.get(key.toLowerCase());
     if (!result) {
+      // 同一标签可能以冒号、句点或问号结尾，仅在已知词条上补齐标点。
+      const punctuation = key.match(/^(.*?)([:.?])$/);
+      if (punctuation) {
+        const base = normalize(punctuation[1]);
+        const translated = EXACT.get(base) || CASE_INSENSITIVE.get(base.toLowerCase());
+        if (translated) result = translated.replace(/[：。？]$/, '') + ({ ':': '：', '.': '。', '?': '？' })[punctuation[2]];
+      }
       const optional = key.match(/^(.*?)\s*\((Optional|Required)\)$/i);
       if (optional) {
         const base = EXACT.get(optional[1]) || CASE_INSENSITIVE.get(optional[1].toLowerCase());
@@ -589,15 +694,30 @@
       }
       // 仅处理已知模板，金额和号码原样保留。
       const rules = [
+        [/^None Order by (.+?) Delivers to: (.+?) Order now\. Pick up in-store: Apple Store Pickup is currently unavailable$/i,
+          (_, cutoff, dates) => '无。请于 ' + cutoff + ' 前订购。配送时间：' + translateDeliveryDetails(dates) + '。立即订购。到店取货：目前不支持 Apple Store 到店取货'],
+        [/^Order by (.+?) Delivers to: (.+?) Order now\. Pick up in-store: Apple Store Pickup is currently unavailable$/i,
+          (_, cutoff, dates) => '请于 ' + cutoff + ' 前订购。配送时间：' + translateDeliveryDetails(dates) + '。立即订购。到店取货：目前不支持 Apple Store 到店取货'],
+        [/^Order by (.+?)\.?$/i, (_, cutoff) => '请于 ' + cutoff + ' 前订购'],
+        [/^Shopping Bag with item count\s*:\s*(\d+)$/i, '购物袋，$1 件商品'],
+        [/^(\d+) Edit Zip code$/i, '$1，编辑邮政编码'],
+        [/^or call (.+?)\s*\.$/i, '或致电 $1。'],
+        [/^Select your delivery method: (.+)$/i, (_, product) => '选择配送方式：' + knownLabel(product)],
+        [/^Add to Bag \((.+)\)$/i, '加入购物袋（$1）'],
+        [/^Edit gift message on card for (.+)$/i, (_, product) => '编辑礼品卡祝福语：' + knownLabel(product)],
+        [/^(.*) removed from your bag\. Any associated offers have also been removed\.$/i,
+          (_, product) => knownLabel(product) + '已从购物袋移除，相关优惠也已移除。'],
+        [/^(.+?) [—–-] Secure Checkout(?: - Apple)?$/i,
+          (_, step) => knownLabel(step) + ' — 安全结账'],
         [/^Your shipping total is (\$[\d,.]+)\.?$/i, '你的配送费用合计为 $1'],
         [/^Show Order Summary: (\$[\d,.]+)$/i, '显示订单摘要：$1'],
         [/^Hide Order Summary: (\$[\d,.]+)$/i, '隐藏订单摘要：$1'],
         [/^Your bag total is (\$[\d,.]+)\.$/i, '你的购物袋总计为 $1。'],
         [/^Buy (\$[\d,.]+) Apple Gift Cards? - Apple$/i, '购买 $1 Apple 礼品卡 - Apple'],
         [/^(\d+) items?$/i, '$1 件商品'],
-        [/^Quantity for (.+)$/i, '商品数量：$1'],
-        [/^Remove (Apple Gift Card.*)$/i, '移除 $1'],
-        [/^Save for later (Apple Gift Card.*)$/i, '保存 $1 以便稍后查看'],
+        [/^Quantity for (.+)$/i, (_, product) => '商品数量：' + knownLabel(product)],
+        [/^Remove (Apple Gift Card.*)$/i, (_, product) => '移除 ' + knownLabel(product)],
+        [/^Save for later (Apple Gift Card.*)$/i, (_, product) => '保存 ' + knownLabel(product) + ' 以便稍后查看'],
         [/^Order (?:Number|number): (.+)$/, '订单编号：$1'],
         [/^Order Total: (\$[\d,.]+)$/i, '订单总计：$1'],
         [/^Total: (\$[\d,.]+)$/i, '合计：$1'],
@@ -605,10 +725,10 @@
         [/^Estimated Tax: (\$[\d,.]+)$/i, '预估税费：$1'],
         [/^Delivery: (.+)$/i, '配送：$1'],
         [/^Shipping: (.+)$/i, '配送：$1'],
-        [/^Arrives (.+)$/i, '预计送达：$1'],
+        [/^Arrives (.+)$/i, (_, details) => '预计送达：' + translateDeliveryDetails(details)],
         [/^Delivers (.+)$/i, (_, details) => '预计送达：' + translateDeliveryDetails(details)],
-        [/^Ships: (.+)$/i, '发货时间：$1'],
-        [/^Ships in (.+)$/i, '将在 $1 内发货'],
+        [/^Ships: (.+)$/i, (_, details) => '发货时间：' + translateDeliveryDetails(details)],
+        [/^Ships in (.+)$/i, (_, details) => '将在 ' + translateDeliveryDetails(details) + '内发货'],
         [/^Delivery to (.+)$/i, '配送至 $1'],
         [/^Shipping to (.+)$/i, '配送至 $1'],
         [/^Email to: (.+)$/i, '发送邮件至：$1'],
@@ -631,6 +751,11 @@
         const base = normalize(windowHint[1]);
         const translated = EXACT.get(base) || CASE_INSENSITIVE.get(base.toLowerCase());
         if (translated) result = translated + '（在新窗口中打开）' + windowHint[2];
+      }
+      const accessibilityHint = key.match(/^(.*?)\s*([\uE000-\uF8FF]*)\s*Opens in a new window\.$/i);
+      if (!result && accessibilityHint) {
+        const translated = knownLabel(accessibilityHint[1]);
+        if (translated !== accessibilityHint[1]) result = translated + accessibilityHint[2] + '（在新窗口中打开）';
       }
       const suffix = ' (Opens in a new window)';
       if (!result && key.endsWith(suffix)) {
@@ -660,7 +785,9 @@
 
   function write(node, name, current) {
     if (!current) return;
-    const next = translate(current);
+    // 月份仅在显式选项和配送日期模板中转换，避免将收件人 May / June 等姓名误译。
+    const month = name === '#text' && node.parentElement && node.parentElement.closest('option[value]') && MONTH_LABELS.get(normalize(current));
+    const next = month ? current.match(/^\s*/)[0] + month + current.match(/\s*$/)[0] : translate(current);
     if (next === current) return;
     let entries = originals.get(node);
     if (!entries) {

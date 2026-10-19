@@ -1,0 +1,95 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Buy Apple Gift Cards - Apple</title><script src="/apple-giftcard-zh.user.js"></script></head><body>
+<h1 id="heading">Buy Apple Gift Card</h1>
+<label id="label">Recipient Name</label><input id="input" placeholder="Recipient Name" aria-label="Recipient Name" value="Select">
+<p id="money">$100</p><textarea id="textarea">Other Amount</textarea>
+<div id="editable" contenteditable="true"><span>Choose an amount.</span></div>
+<div id="dynamic"></div>
+<section id="checkout">
+<p id="combined">None Order by 12 p.m. Delivers to: Tomorrow  —  $8.00 Wed, Oct 21  —  Free Order now. Pick up in-store: Apple Store Pickup is currently unavailable</p>
+<p id="phone"> or call  1‑800‑MY‑APPLE .</p>
+<p id="colon">Subtotal:</p><p id="arrival">Arrives Monday, October 26</p><p id="days">Ships in 2–3 business days</p>
+<p id="contact-name">May</p><select id="month"><option value="05">May</option></select>
+<button id="bag-count" aria-label="Shopping Bag with item count : 1">Bag</button>
+<a id="footer-test">Apple Leadership</a><a id="auth-hint" aria-label="Forgot password?  Opens in a new window.">Forgot password?</a>
+
+<h2 id="bag-total">Your bag total is $25.00.</h2>
+<button id="checkout-button">Check Out</button>
+<button id="shoppingCart.actions.apwCheckout" type="button" lang="en-US">Check out with Pay</button>
+<apple-pay-button id="apple-pay-component" type="check-out" locale="en-US"></apple-pay-button>
+<form id="checkout-form"><select name="delivery" id="explicit"><option value="mail">Mail</option><option value="email">Email</option></select><select name="implicit" id="implicit"><option>Email</option></select><input name="payment" aria-label="Card Number" placeholder="Card Number" value="TEST-INPUT"></form>
+<p id="delivery-date">Delivers Wed, Oct 21 Standard Delivery FREE</p>
+<p id="summary">Show Order Summary: $25.00</p>
+<p id="optional">First Name (Optional)</p>
+<a id="policy" href="https://www.apple.com/shop/help/shipping_delivery">View Apple Shipping Policy (opens in a new window) </a>
+</section><pre id="results">Running browser checks…</pre>
+<script>
+(async function () {
+  const results = [];
+  const check = (condition, name) => results.push((condition ? 'PASS: ' : 'FAIL: ') + name);
+  const tick = () => new Promise(resolve => setTimeout(resolve, 80));
+  await tick();
+  check(document.title === '购买 Apple 礼品卡 - Apple', '标题翻译');
+  check(document.querySelector('#heading').textContent === '购买 Apple 礼品卡', '在 body 出现前启动后，仍可翻译正文');
+  check(document.querySelector('#input').placeholder === '收件人姓名', '输入提示翻译');
+  check(document.querySelector('#input').value === 'Select', '输入值保持原样');
+  check(document.querySelector('#money').textContent === '$100', '金额保持原样');
+  check(document.querySelector('#textarea').value === 'Other Amount', '文本域保持原样');
+  const p = document.createElement('p'); p.textContent = 'Enter your delivery details.';
+  document.querySelector('#dynamic').appendChild(p);
+  const span = document.createElement('span'); span.textContent = 'No message';
+  document.querySelector('#editable').appendChild(span);
+  await tick();
+  check(p.textContent === '填写配送信息。', '动态新增内容翻译');
+  check(span.textContent === 'No message', '动态可编辑内容保持原样');
+  document.querySelector('#heading').firstChild.nodeValue = 'Choose an amount.';
+  document.querySelector('#input').setAttribute('placeholder', 'Sender Name');
+  await tick();
+  check(document.querySelector('#heading').textContent === '选择金额。', '网站重新写入英文后继续翻译');
+  check(document.querySelector('#input').placeholder === '发件人姓名', '动态属性翻译');
+  const button = document.querySelector('[data-apple-giftcard-zh-ui]');
+  check(!!button, '语言切换按钮在 body 就绪后出现');
+  check(document.querySelector('#bag-total').textContent === '你的购物袋总计为 $25.00。', '购物袋总额模板翻译并保留金额');
+  check(document.querySelector('#checkout-button').textContent === '结账', 'Check Out 入口翻译');
+  const pay = document.getElementById('shoppingCart.actions.apwCheckout');
+  const component = document.getElementById('apple-pay-component');
+  check(pay.textContent === '使用 Apple Pay 结账' && pay.lang === 'zh-CN', 'Apple Pay 文案及 Safari 按钮语言');
+  check(component.getAttribute('locale') === 'zh-CN' && component.getAttribute('type') === 'check-out', '原生组件按钮设置语言并保持类型');
+  check(document.querySelector('#explicit option').textContent === '邮寄' && document.querySelector('#explicit').value === 'mail', '显式下拉选项翻译显示但保留值');
+  check(document.querySelector('#implicit option').textContent === 'Email' && document.querySelector('#implicit').value === 'Email', '隐式选项值不受翻译影响');
+  const data = new FormData(document.querySelector('#checkout-form'));
+  check(JSON.stringify([...data]) === JSON.stringify([['delivery','mail'], ['implicit','Email'], ['payment','TEST-INPUT']]), '付款表单提交数据保持原样');
+  check(document.querySelector('#delivery-date').textContent === '预计送达：周三, 10 月 21 标准配送 免费', '配送日期与方式模板翻译');
+  check(document.querySelector('#summary').textContent === '显示订单摘要：$25.00', '订单摘要金额保持原样');
+  check(document.querySelector('#optional').textContent === '名字（选填）', '可选字段标签翻译');
+  check(document.querySelector('#policy').textContent.startsWith('查看 Apple 配送政策（在新窗口中打开）') && document.querySelector('#policy').href === 'https://www.apple.com/shop/help/shipping_delivery', '新窗口提示翻译但链接保持原样');
+  check(document.querySelector('#combined').textContent === '无。请于 12 p.m. 前订购。配送时间：明天 — $8.00 周三, 10 月 21 — 免费。立即订购。到店取货：目前不支持 Apple Store 到店取货', '购物袋组合配送文案全部翻译且保留时间与费用');
+  check(document.querySelector('#phone').textContent === ' 或致电 1‑800‑MY‑APPLE。', '客服片段翻译且电话号码保持原样');
+  check(document.querySelector('#colon').textContent === '小计：', '带冒号的字段标签翻译');
+  check(document.querySelector('#arrival').textContent === '预计送达：周一, 10 月 26', '完整星期和月份日期翻译');
+  check(document.querySelector('#days').textContent === '将在 2–3 个工作日内发货', '工作日发货期限翻译');
+  check(document.querySelector('#contact-name').textContent === 'May', '保留与月份同名的联系人姓名');
+  check(document.querySelector('#month option').textContent === '5 月' && document.querySelector('#month').value === '05', '到期月份选项翻译但不改提交值');
+  check(document.querySelector('#bag-count').getAttribute('aria-label') === '购物袋，1 件商品', '购物袋数量无障碍标签翻译');
+  check(document.querySelector('#footer-test').textContent === 'Apple 管理层', '补齐页脚链接');
+  check(document.querySelector('#auth-hint').getAttribute('aria-label') === '忘记密码？（在新窗口中打开）', '登录框新窗口无障碍提示翻译');
+  const frame = document.createElement('iframe');
+  frame.srcdoc = '<!doctype html><script src="/apple-giftcard-zh.user.js"><' + '/script><h2>Check out with your Apple Account</h2><input placeholder="Email or Phone Number">';
+  document.body.append(frame);
+  await new Promise(resolve => frame.addEventListener('load', resolve, {once:true}));
+  await tick();
+  check(frame.contentDocument.querySelector('h2').textContent === '使用 Apple 账户结账' && !frame.contentDocument.querySelector('[data-apple-giftcard-zh-ui]'), '登录内嵌页翻译且不重复显示按钮');
+  button.click();
+  await tick();
+  check(pay.lang === 'en-US' && component.getAttribute('locale') === 'en-US', '切回英文恢复 Apple Pay 原始语言');
+  check(document.querySelector('#explicit option').textContent === 'Mail' && document.querySelector('#explicit').value === 'mail', '切回英文恢复选项显示并保留值');
+  check(p.textContent === 'Enter your delivery details.', '恢复动态节点英文原文');
+  check(document.querySelector('#heading').textContent === 'Choose an amount.', '恢复网站最新原文');
+  check(document.querySelector('#input').placeholder === 'Sender Name', '恢复最新属性原文');
+  document.querySelector('#input').value = '用户填写内容';
+  button.click();
+  await tick();
+  check(p.textContent === '填写配送信息。', '再次切回中文');
+  check(document.querySelector('#input').value === '用户填写内容', '语言切换保留用户输入');
+  document.querySelector('#results').textContent = results.join('\n') + '\n' + (results.every(x => x.startsWith('PASS')) ? 'ALL ' + results.length + ' CHECKS PASSED' : 'CHECK FAILED');
+})();
+</script></body></html>

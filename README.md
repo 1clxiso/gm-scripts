@@ -10,7 +10,7 @@
 
 ## Apple 美国商店购物及结账中文翻译
 
-脚本：[apple-giftcard-zh.user.js](apple-giftcard-zh.user.js)，当前版本 **1.2.1**。
+脚本：[apple-giftcard-zh.user.js](apple-giftcard-zh.user.js)，当前版本 **1.2.2**。
 
 ## Safari + Stay 安装或更新
 
@@ -45,3 +45,10 @@ Tampermonkey 也可以导入同一份脚本。
 
 启动与遍历结构参考用户提供的可用脚本：
 https://raw.githubusercontent.com/luestr/userscripts/main/i18n/decrypt.34306.lol-zh-CN.user.js
+
+## 1.2.2 补漏
+
+- 补齐购物袋组合配送说明、移除商品通知、客服片段、页脚链接、登录验证与付款提示。
+- 支持带标点的标签、完整星期／月份、工作日配送期限和更多无障碍提示。
+- 月份仅在配送日期与显式选项中翻译，避免把联系人 May / June 等姓名译为月份。
+- 可运行的本地回归页面见 [tests/README.md](tests/README.md)，覆盖 40 项行为检查。
